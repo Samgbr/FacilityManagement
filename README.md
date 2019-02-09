@@ -8,7 +8,9 @@ This repository is used for building a Facility Management Application for the c
 + Create a Mysql database and connect using JDBC
 + Create a main class to test the application functionality
 
-https://drive.google.com/open?id=1yA_stOtsSN5leGlXI8OPEciRTYhXSqc3
+DB SChema: https://drive.google.com/open?id=1yA_stOtsSN5leGlXI8OPEciRTYhXSqc3
+
+DDL:  https://drive.google.com/open?id=1Vcoy_dCfC08ewKJIyyWTOgWEO_1m1sfz
 
 
 
