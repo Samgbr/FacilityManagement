@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 09, 2019 at 11:59 PM
+-- Generation Time: Feb 13, 2019 at 10:39 PM
 -- Server version: 10.1.34-MariaDB
 -- PHP Version: 7.2.8
 
@@ -49,8 +49,9 @@ CREATE TABLE `inspection` (
   `InspectionID` varchar(25) NOT NULL,
   `DateFrom` date DEFAULT NULL,
   `DateTo` date DEFAULT NULL,
-  `InspectedBy` varchar(25) DEFAULT NULL,
-  `FacilityID` varchar(25) DEFAULT NULL
+  `UserID` varchar(25) DEFAULT NULL,
+  `FacilityID` varchar(25) DEFAULT NULL,
+  `InspectionType` varchar(25) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -63,7 +64,9 @@ CREATE TABLE `inuse` (
   `UsageID` varchar(25) NOT NULL,
   `Rstatus` varchar(25) DEFAULT NULL,
   `ReserveID` varchar(25) DEFAULT NULL,
-  `RoomID` varchar(25) DEFAULT NULL
+  `RoomID` varchar(25) DEFAULT NULL,
+  `UserID` varchar(25) DEFAULT NULL,
+  `UsedInInterval` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -79,7 +82,21 @@ CREATE TABLE `maintenance` (
   `MaintenanceEnd` date DEFAULT NULL,
   `Cost` double DEFAULT NULL,
   `SStatus` varchar(25) DEFAULT NULL,
-  `ScheduleID` varchar(25) DEFAULT NULL
+  `ScheduleID` varchar(25) DEFAULT NULL,
+  `MOrderID` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `maintenanceorder`
+--
+
+CREATE TABLE `maintenanceorder` (
+  `MOrderID` varchar(25) NOT NULL,
+  `Orderdate` date NOT NULL,
+  `MStatus` varchar(25) NOT NULL,
+  `ScheduleID` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -91,9 +108,9 @@ CREATE TABLE `maintenance` (
 CREATE TABLE `maintenancerequest` (
   `RequestID` varchar(25) NOT NULL,
   `Description` varchar(25) DEFAULT NULL,
-  `RequestedBy` varchar(25) DEFAULT NULL,
+  `UserID` varchar(25) DEFAULT NULL,
   `RoomID` varchar(25) DEFAULT NULL,
-  `ScheduleID` varchar(25) DEFAULT NULL
+  `MOrderID` varchar(25) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -105,8 +122,7 @@ CREATE TABLE `maintenancerequest` (
 CREATE TABLE `maintenanceschedule` (
   `ScheduleID` varchar(25) NOT NULL,
   `DateFrom` date DEFAULT NULL,
-  `DateTo` date DEFAULT NULL,
-  `MStatus` varchar(25) DEFAULT NULL
+  `DateTo` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -132,7 +148,7 @@ CREATE TABLE `reserve` (
   `ReserveID` varchar(25) NOT NULL,
   `DateFrom` date NOT NULL,
   `DateTo` date NOT NULL,
-  `ReservedBy` varchar(25) DEFAULT NULL,
+  `UserID` varchar(25) DEFAULT NULL,
   `Rstatus` varchar(25) DEFAULT NULL,
   `RoomID` varchar(25) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -147,6 +163,20 @@ CREATE TABLE `room` (
   `RoomID` varchar(25) NOT NULL,
   `RoomType` varchar(25) DEFAULT NULL,
   `FacilityID` varchar(25) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+CREATE TABLE `user` (
+  `UserID` varchar(25) NOT NULL,
+  `Name` varchar(30) NOT NULL,
+  `PhoneNumber` varchar(25) NOT NULL,
+  `Address` varchar(25) NOT NULL,
+  `TypeOfUser` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -181,11 +211,16 @@ ALTER TABLE `maintenance`
   ADD KEY `HasSe_FK1` (`ScheduleID`);
 
 --
+-- Indexes for table `maintenanceorder`
+--
+ALTER TABLE `maintenanceorder`
+  ADD PRIMARY KEY (`MOrderID`);
+
+--
 -- Indexes for table `maintenancerequest`
 --
 ALTER TABLE `maintenancerequest`
   ADD PRIMARY KEY (`RequestID`),
-  ADD KEY `HasReqS_FK1` (`ScheduleID`),
   ADD KEY `HasReqR_FK1` (`RoomID`);
 
 --
@@ -216,6 +251,12 @@ ALTER TABLE `room`
   ADD KEY `HasR_FK1` (`FacilityID`);
 
 --
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`UserID`);
+
+--
 -- Constraints for dumped tables
 --
 
@@ -242,7 +283,7 @@ ALTER TABLE `maintenance`
 --
 ALTER TABLE `maintenancerequest`
   ADD CONSTRAINT `HasReqR_FK1` FOREIGN KEY (`RoomID`) REFERENCES `room` (`RoomID`),
-  ADD CONSTRAINT `HasReqS_FK1` FOREIGN KEY (`ScheduleID`) REFERENCES `maintenanceschedule` (`ScheduleID`);
+  ADD CONSTRAINT `HasReqS_FK1` FOREIGN KEY (`MOrderID`) REFERENCES `maintenanceschedule` (`ScheduleID`);
 
 --
 -- Constraints for table `phone`
