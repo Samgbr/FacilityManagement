@@ -1,10 +1,27 @@
 package com.fms.model.facility;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Building extends Facility{
 
 	private String type;
 	private int capacity;
+	private Set<Phone> phones = new HashSet<Phone>();
+	private Set<Room> rooms = new HashSet<Room>();
 	
+	public Set<Phone> getPhones() {
+		return phones;
+	}
+	public void setPhones(Set<Phone> phones) {
+		this.phones = phones;
+	}
+	public Set<Room> getRooms() {
+		return rooms;
+	}
+	public void setRooms(Set<Room> rooms) {
+		this.rooms = rooms;
+	}
 	public String getType() {
 		return type;
 	}
