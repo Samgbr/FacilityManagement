@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 13, 2019 at 10:39 PM
+-- Generation Time: Feb 14, 2019 at 12:57 AM
 -- Server version: 10.1.34-MariaDB
 -- PHP Version: 7.2.8
 
@@ -38,6 +38,15 @@ CREATE TABLE `building` (
   `Type` varchar(25) DEFAULT NULL,
   `Capacity` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `building`
+--
+
+INSERT INTO `building` (`FacilityID`, `FacilityName`, `Address`, `City`, `State`, `ZipCode`, `Type`, `Capacity`) VALUES
+('FA001', 'HeadOffice', '1604 North Ave.', 'Chicago', 'IL', '60600', 'Office', 50),
+('FA879', 'HeadOffice', '1604 North Ave.', 'Chicago', 'IL', '60600', 'Office', 50),
+('FA9462', 'Branch', '1804 South Ave.', 'Wheathon', 'IL', '60603', 'Office', 20);
 
 -- --------------------------------------------------------
 
@@ -138,6 +147,18 @@ CREATE TABLE `phone` (
   `FacilityID` varchar(25) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `phone`
+--
+
+INSERT INTO `phone` (`PhoneID`, `PhoneNumber`, `Description`, `FacilityID`) VALUES
+('PH001', '104', 'Security phone number', 'FA001'),
+('PH002', '204', 'Reception phone number', 'FA001'),
+('PH198', '504', 'Reception phone number', 'FA9462'),
+('PH7095', '204', 'Reception phone number', 'FA879'),
+('PH8212', '104', 'Security phone number', 'FA879'),
+('PH9299', '304', 'VP Office phone number', 'FA9462');
+
 -- --------------------------------------------------------
 
 --
@@ -164,6 +185,18 @@ CREATE TABLE `room` (
   `RoomType` varchar(25) DEFAULT NULL,
   `FacilityID` varchar(25) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `room`
+--
+
+INSERT INTO `room` (`RoomID`, `RoomType`, `FacilityID`) VALUES
+('RM001', 'Conference', 'FA001'),
+('RM002', 'Meeting', 'FA001'),
+('RM1183', 'Conference', 'FA9462'),
+('RM4942', 'Conference', 'FA879'),
+('RM6658', 'Meeting', 'FA879'),
+('RM7245', 'Training Room', 'FA9462');
 
 -- --------------------------------------------------------
 
