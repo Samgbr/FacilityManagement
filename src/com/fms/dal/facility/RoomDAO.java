@@ -84,4 +84,25 @@ public class RoomDAO {
 		
 		return rooms;
 	}
+	
+	public void deleteRooms(String fid) {
+		Connection connection = DBConnect.getDatabaseConnection();
+		try {
+			Statement deleteStatement = connection.createStatement();
+			
+			String deleteQuery = "DELETE FROM room WHERE FacilityID='"+fid+"'";
+			deleteStatement.executeUpdate(deleteQuery);	
+						
+		}catch(SQLException se) {
+			se.printStackTrace();
+		}finally {
+			if(connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {}
+			}
+		}
+		
+	}
+
 }

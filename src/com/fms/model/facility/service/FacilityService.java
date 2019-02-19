@@ -58,4 +58,17 @@ public class FacilityService {
 			return 0;
 		}
 	
+	public String removeFacility(String facilityId) {
+		
+		try {
+			buildingDAO.deleteBuilding(facilityId);
+	    	return "OK";
+	    } catch (Exception se) {
+	      System.err.println("FacilityService: Threw a Exception deleting a Facility.");
+	      System.err.println(se.getMessage());
+	    }
+		return null;
+	}
+	
+	
 }

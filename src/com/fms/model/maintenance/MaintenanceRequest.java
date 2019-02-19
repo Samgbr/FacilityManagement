@@ -6,8 +6,21 @@ public class MaintenanceRequest {
 	private String description;
 	private String userID;
 	private String roomID;
+	private String requestDate;
 	private String morderID;
-	
+		
+	public String getMorderID() {
+		return morderID;
+	}
+	public void setMorderID(String morderID) {
+		this.morderID = morderID;
+	}
+	public String getRequestDate() {
+		return requestDate;
+	}
+	public void setRequestDate(String requestDate) {
+		this.requestDate = requestDate;
+	}
 	public String getRequestID() {
 		return requestID;
 	}
@@ -32,13 +45,5 @@ public class MaintenanceRequest {
 	public void setRoomID(String roomID) {
 		this.roomID = roomID;
 	}
-	public String getMorderID() {
-		return morderID;
-	}
-	public void setMorderID(String morderID) {
-		this.morderID = morderID;
-	}
-	
-	
 	
 }
