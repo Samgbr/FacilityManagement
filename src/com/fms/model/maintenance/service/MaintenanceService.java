@@ -26,7 +26,7 @@ public class MaintenanceService {
 	    }
 	}
 	
-	//Insert new Maintenance request
+	//Update Request order id
 	public void UpdateRequest(String requestID, String morderID) {
 			
 			try {

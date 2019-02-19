@@ -8,8 +8,10 @@ import com.fms.model.facility.Building;
 import com.fms.model.facility.Phone;
 import com.fms.model.facility.Room;
 import com.fms.model.facility.service.FacilityService;
+import com.fms.model.maintenance.Maintenance;
 import com.fms.model.maintenance.MaintenanceOrder;
 import com.fms.model.maintenance.MaintenanceRequest;
+import com.fms.model.maintenance.MaintenanceSchedule;
 import com.fms.model.maintenance.service.MaintenanceService;
 import com.fms.model.user.User;
 import com.fms.model.user.service.UserService;
@@ -100,6 +102,7 @@ public class FMSClient {
 	    int randInt = randomGen.nextInt(10000);
 	    String userID = "USR" + randInt;
 	    
+	    System.out.println("Adding a new User.");
 		//Add User
 		User user = new User();
 		user.setUserID(userID);
@@ -111,6 +114,7 @@ public class FMSClient {
 		UserService userService = new UserService();
 		userService.addUser(user);
 		
+		System.out.println("Adding Maintenance Request");
 		//Add Maintenance request
 		MaintenanceRequest request = new MaintenanceRequest();
 		Set<MaintenanceRequest> requests = new HashSet<>();
@@ -127,7 +131,7 @@ public class FMSClient {
 		request.setRoomID(roomID);
 		
 		requests.add(request);
-		
+		System.out.println("Adding Maintenance order for the requests");
 		//Add Maintenance Order
 		MaintenanceOrder morder = new MaintenanceOrder();
 				
@@ -147,6 +151,38 @@ public class FMSClient {
 		for(MaintenanceRequest r: requests) {
 			mService.UpdateRequest(r.getRequestID(),morderID);
 		}
+		System.out.println("Adding Maintenance Schedule");
+		//Maintenance Schedule
+		randomGen = new Random();
+		randInt = randomGen.nextInt(10000);
+		String scheduleID = "SC" + randInt;
+		
+		
+		MaintenanceSchedule schedule =  new MaintenanceSchedule();
+		schedule.setScheduleID(scheduleID);
+		schedule.setDateFrom("2019/03/01");
+		schedule.setDateTo("2019/03/15");
+		schedule.setMorderID(morderID);
+		
+		mService.addMaintenanceSchedule(schedule);
+		System.out.println("Adding Maintenance Activity");
+		//Insert Maintenance Activity
+		randomGen = new Random();
+		randInt = randomGen.nextInt(10000);
+		String maintenanceID = "MN" + randInt;
+		
+		Maintenance maintenance = new Maintenance();
+		maintenance.setMaintenanceID(maintenanceID);
+		maintenance.setType("Engineering");
+		maintenance.setMaintenanceStart("2019/03/02");
+		maintenance.setMaintenanceEnd("2019/03/16");
+		maintenance.setCost(10004.75);
+		maintenance.setSStatus("InProcess");
+		maintenance.setScheduleID(scheduleID);
+		maintenance.setMOrderID(morderID);
+		
+		mService.addMaintenance(maintenance);
+		System.out.println("Success");
 		
 	}
 }
