@@ -1,7 +1,5 @@
 package com.fms.dal;
-//
-//
-//
+//new changes
 public class DBConfig {
 
 	
