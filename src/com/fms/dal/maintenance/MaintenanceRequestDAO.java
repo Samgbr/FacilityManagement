@@ -37,6 +37,11 @@ public class MaintenanceRequestDAO {
 		return maintenanceRequest;		
 	}
 	
+	/**
+	 * This method updates the request order id
+	 * @param requestID
+	 * @param morderID
+	 */
 	public void updateRequest(String requestID, String morderID) {
 		
 		Connection connection = DBConnect.getDatabaseConnection();
