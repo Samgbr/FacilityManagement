@@ -148,6 +148,30 @@ public class BuildingDAO {
 	}
 	
 	//Remove a Facility
+	public void deleteBuilding(String fid) {
+		Connection connection = DBConnect.getDatabaseConnection();
+		try {
+			Statement deleteStatement = connection.createStatement();
+			
+			phoneDAO.deletePhone(fid);
+			roomDAO.deleteRooms(fid);
+			
+			String deleteQuery = "DELETE FROM building WHERE FacilityID='"+fid+"'";
+			deleteStatement.executeUpdate(deleteQuery);	
+						
+		}catch(SQLException se) {
+			se.printStackTrace();
+		}finally {
+			if(connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {}
+			}
+		}
+		
+	}
+	
+	
 	
 	//Get available capacity for a facility
 	public int getAvailableCapacity(String fid) {

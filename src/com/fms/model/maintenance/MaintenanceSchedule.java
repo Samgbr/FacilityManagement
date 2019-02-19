@@ -5,7 +5,14 @@ public class MaintenanceSchedule {
 	private String scheduleID;
 	private String dateFrom;
 	private String dateTo;
-	
+	private String morderID;
+
+	public String getMorderID() {
+		return morderID;
+	}
+	public void setMorderID(String morderID) {
+		this.morderID = morderID;
+	}
 	public String getScheduleID() {
 		return scheduleID;
 	}

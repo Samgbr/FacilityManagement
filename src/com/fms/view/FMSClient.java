@@ -8,6 +8,11 @@ import com.fms.model.facility.Building;
 import com.fms.model.facility.Phone;
 import com.fms.model.facility.Room;
 import com.fms.model.facility.service.FacilityService;
+import com.fms.model.maintenance.MaintenanceOrder;
+import com.fms.model.maintenance.MaintenanceRequest;
+import com.fms.model.maintenance.service.MaintenanceService;
+import com.fms.model.user.User;
+import com.fms.model.user.service.UserService;
 
 public class FMSClient {
 
@@ -88,5 +93,60 @@ public class FMSClient {
 		fService.addBuilding(building);
 		
 		System.out.println("Facility data inserted successfully.");
+		
+		fService.removeFacility("FA001");
+		
+		Random randomGen = new Random();
+	    int randInt = randomGen.nextInt(10000);
+	    String userID = "USR" + randInt;
+	    
+		//Add User
+		User user = new User();
+		user.setUserID(userID);
+		user.setName("Peter");
+		user.setAddress("3510 North Street, Chicago,IL");
+		user.setPhoneNumber("7735581010");
+		user.setTypeOfUser("Employee");
+		
+		UserService userService = new UserService();
+		userService.addUser(user);
+		
+		//Add Maintenance request
+		MaintenanceRequest request = new MaintenanceRequest();
+		Set<MaintenanceRequest> requests = new HashSet<>();
+		
+		randomGen = new Random();
+	    randInt = randomGen.nextInt(10000);
+	    String requestID = "MR" + randInt;
+	    
+		request.setRequestID(requestID);
+		request.setDescription("Chair Broken");
+		request.setRequestDate("2019/02/18");
+		request.setRoomID(roomID);
+		request.setUserID(userID);
+		request.setRoomID(roomID);
+		
+		requests.add(request);
+		
+		//Add Maintenance Order
+		MaintenanceOrder morder = new MaintenanceOrder();
+				
+		randomGen = new Random();
+		randInt = randomGen.nextInt(10000);
+		String morderID = "MO" + randInt;
+		
+		morder.setMorderID(morderID);
+		morder.setOrderDate("2019/02/18");
+		morder.setmStatus("Filled");
+		morder.setMaintRequests(requests);
+		
+		MaintenanceService mService = new MaintenanceService();
+		mService.addMaintenanceRequest(request);
+		mService.addMaintenanceOrder(morder);
+		
+		for(MaintenanceRequest r: requests) {
+			mService.UpdateRequest(r.getRequestID(),morderID);
+		}
+		
 	}
 }
