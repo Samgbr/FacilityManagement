@@ -43,7 +43,7 @@ public class InspectionDAO {
 	
 	
 	//retrieve all inspections for a facility
-	public Set getBuildingInspections(String fid) {
+	public Set<Inspection> getBuildingInspections(String fid) {
 		
 		Connection connection = DBConnect.getDatabaseConnection();
 		
