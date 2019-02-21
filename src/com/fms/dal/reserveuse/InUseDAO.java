@@ -9,7 +9,7 @@ import com.fms.model.reserveuse.InUse;
 
 public class InUseDAO {
 	
-	public InUse insertInUse(String usageID, String rstatus, String reserveID, String roomID, Boolean usedInInterval) {
+	public InUse insertInUse(String usageID, String rstatus, String reserveID, String roomID, String userID, Boolean usedInInterval) {
 		
 		InUse inUse=new InUse();
 		
@@ -17,6 +17,7 @@ public class InUseDAO {
 		inUse.setrStatus(rstatus);
 		inUse.setReserveID(reserveID);
 		inUse.setRoomID(roomID);
+		inUse.setUserID(userID);
 		inUse.setUsedInInterval(usedInInterval);
 		
 		Connection connection = DBConnect.getDatabaseConnection();
@@ -25,7 +26,7 @@ public class InUseDAO {
 			Statement insertStatement = connection.createStatement();
 			
 			String insertQuery="INSERT INTO inuse(UsageID,Rstatus,ReserveID,RoomID,UserID,UsedInInterval)"
-					+"VALUES('"+usageID+"','"+rstatus+"'+'"+reserveID+"','"+roomID+"','"+usedInInterval+"')";
+					+"VALUES('"+usageID+"','"+rstatus+"'+'"+reserveID+"','"+roomID+"',''"+userID+"',"+usedInInterval+"')";
 			insertStatement.executeUpdate(insertQuery);
 		}catch(SQLException se) {
 			se.printStackTrace();
