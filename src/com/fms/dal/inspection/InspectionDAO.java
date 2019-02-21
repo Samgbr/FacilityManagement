@@ -9,7 +9,6 @@ import java.util.Iterator;
 import java.util.Set;
 
 import com.fms.dal.DBConnect;
-import com.fms.model.facility.Phone;
 import com.fms.model.inspection.Inspection;
 
 public class InspectionDAO {
