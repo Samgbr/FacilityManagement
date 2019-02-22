@@ -57,7 +57,7 @@ public class FacilityService {
 		    }
 			return 0;
 		}
-	
+	//Remove Facility
 	public String removeFacility(String facilityId) {
 		
 		try {
