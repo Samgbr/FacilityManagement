@@ -1,6 +1,7 @@
 package com.fms.dal.maintenance;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -35,5 +36,45 @@ public class MaintenanceScheduleDAO {
 				}
 			}
 			return maintenanceSchedule;		
+		}
+	
+	
+	//Get Maintenance Schedule
+	public MaintenanceSchedule getMaintenanceSchedule(String msid) {
+			String scheduleID=msid;
+			String dateFrom ="";
+			String dateTo = "";
+			String mOrderID="";
+			
+			Connection connection = DBConnect.getDatabaseConnection();
+			
+			
+			try {
+				Statement selectStatement = connection.createStatement();
+				
+				String selectQuery = "SELECT * from maintenanceschedule where ScheduleID='" + msid +"'";
+				ResultSet resultSet = selectStatement.executeQuery(selectQuery);
+				resultSet.next();
+				dateFrom= resultSet.getString("DateFrom");
+				dateTo = resultSet.getString("DateTo");
+				mOrderID = resultSet.getString("MOrderID");
+				
+			}catch(SQLException se) {
+				se.printStackTrace();
+			}finally {
+				if(connection != null) {
+					try {
+						connection.close();
+					} catch (SQLException e) {}
+				}
+			}
+			
+			MaintenanceSchedule maintenanceSchedule = new MaintenanceSchedule();
+			maintenanceSchedule.setScheduleID(scheduleID);
+			maintenanceSchedule.setDateFrom(dateFrom);
+			maintenanceSchedule.setDateTo(dateTo);
+			maintenanceSchedule.setMorderID(mOrderID);
+			
+			return maintenanceSchedule;	
 		}
 }

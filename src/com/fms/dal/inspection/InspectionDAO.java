@@ -42,7 +42,7 @@ public class InspectionDAO {
 	
 	
 	//retrieve all inspections for a facility
-	public Set<Inspection> getBuildingInspections(String fid) {
+	public Set<Inspection> getBuildingInspections() {
 		
 		Connection connection = DBConnect.getDatabaseConnection();
 		
@@ -51,7 +51,7 @@ public class InspectionDAO {
 		try {
 			Statement selectStatement = connection.createStatement();
 			
-			String selectQuery = "SELECT * from inspection WHERE FacilityID='"+fid+"'";
+			String selectQuery = "SELECT * from inspection";
 			ResultSet resultSet=selectStatement.executeQuery(selectQuery);
 			
 			while(resultSet.next()) {

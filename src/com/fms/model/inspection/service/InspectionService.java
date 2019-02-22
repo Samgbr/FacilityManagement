@@ -6,23 +6,29 @@ import com.fms.dal.inspection.InspectionDAO;
 import com.fms.model.inspection.Inspection;
 
 public class InspectionService {
-	private InspectionDAO inspectionDAO=new InspectionDAO();
 	
-	//insert inspections
-	public void addInspection(Set<Inspection> inspection) {
+	private InspectionDAO inspectionDAO = new InspectionDAO();
+	
+	//Insert inspections
+	public void addInspections(Set<Inspection> inspections) {
 		try {
-			inspectionDAO.insertInspectionInfo()
+			
+			inspectionDAO.insertInspectionInfo(inspections);
+			
+		}catch(Exception se){
+			 System.err.println("InspectionAddService: Threw a Exception Adding Facility Inspections.");
+		      System.err.println(se.getMessage());
 		}
 		
 	}
 	
-	public Set<Inspection> listInspections(String fid){
+	public Set<Inspection> listInspections(){
 		try {
-			Set<Inspection> inspections=inspectionDAO.getBuildingInspections(fid);
+			Set<Inspection> inspections = inspectionDAO.getBuildingInspections();
 			return inspections;
 			
 		}catch(Exception se){
-			 System.err.println("inspectionService: Threw a Exception retrieving Facility.");
+			 System.err.println("InspectionService: Threw a Exception retrieving Facility Inspections.");
 		      System.err.println(se.getMessage());
 		}
 		return null;
