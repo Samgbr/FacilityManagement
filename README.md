@@ -14,7 +14,7 @@ UML and DB Schema: https://drive.google.com/open?id=1yzk68ZjCq6tuMD_3_0PT_RuaduJ
 
 DDL:  https://drive.google.com/open?id=1Vcoy_dCfC08ewKJIyyWTOgWEO_1m1sfz
 
-For the Application detail functionality check out the Wiki page.
+For the Application detail functionality check out the [Wiki page](https://github.com/Samgbr/FacilityManagement/wiki).
 
 
 
