@@ -15,6 +15,9 @@ import com.fms.model.maintenance.MaintenanceOrder;
 import com.fms.model.maintenance.MaintenanceRequest;
 import com.fms.model.maintenance.MaintenanceSchedule;
 import com.fms.model.maintenance.service.MaintenanceService;
+import com.fms.model.reserveuse.InUse;
+import com.fms.model.reserveuse.Reserve;
+import com.fms.model.reserveuse.service.ReserveuseService;
 import com.fms.model.user.User;
 import com.fms.model.user.service.UserService;
 
@@ -22,7 +25,7 @@ public class FMSClient {
 
 	public static void main(String[] args) {
 		
-		System.out.println("Building Facility Creation Started... ");
+		System.out.println("Facility Creation Started... ");
 		
 		
 		Random randomGenerator = new Random();
@@ -82,7 +85,50 @@ public class FMSClient {
 		
 		addInspections(inspectionID, userID, facilityID);
 		
-		System.out.println("Success");
+		randomGen = new Random();
+		randInt = randomGen.nextInt(10000);		
+		String reserveID = "RE" + randInt;
+		
+		randomGen = new Random();
+		randInt = randomGen.nextInt(10000);		
+		String usageID = "US" + randInt;
+		
+		addReservationUse(reserveID, userID, roomID2, usageID);
+		
+		System.out.println("Finished Successfully");
+		
+	}
+
+	private static void addReservationUse(String reserveID, String userID, String roomID2, String usageID) {
+		
+		Reserve reserve = new Reserve();
+		reserve.setReserveID(reserveID);
+		reserve.setDateFrom("2019/03/01");
+		reserve.setDateTo("2019/03/15");
+		reserve.setUserID(userID);
+		reserve.setRoomID(roomID2);
+		reserve.setrStatus("Reserved");
+		
+		ReserveuseService ruService = new ReserveuseService();
+		ruService.addReservation(reserve);
+		
+		InUse inUse = new InUse();
+		inUse.setUsageID(usageID);
+		inUse.setReserveID(reserveID);
+		inUse.setRoomID(roomID2);
+		inUse.setUserID(userID);
+		inUse.setrStatus("Occupied");
+		inUse.setUsedInInterval(0);
+		
+		ruService.assignFacilityToUse(inUse);
+		System.out.println("Facility Used In Interval: 0-false 1-true ");
+		System.out.println(ruService.getFacilityIntervalUsage(roomID2));
+		System.out.println("Facility Actual Usage: UsageIS's ");
+		System.out.println(ruService.getActualFacilityUsage(roomID2).getUsageID());
+		System.out.println("Facility Usage Rate: ");
+		System.out.println(ruService.facilityUsageRate(roomID2));
+		System.out.println("Facility Vacated");
+		ruService.vacateFacility(roomID2);
 		
 	}
 
@@ -273,7 +319,7 @@ public class FMSClient {
 		
 		System.out.println("Facility data inserted successfully.");
 		
-		fService.removeFacility("FA001");
+		fService.removeFacility("FA001");  //Tested
 		
 	}
 }
