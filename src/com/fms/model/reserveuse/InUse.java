@@ -7,7 +7,7 @@ public class InUse {
 	private	String reserveID;
 	private String roomID;
 	private String userID;
-	private boolean usedInInterval;
+	private int usedInInterval;
 	
 	public String getUsageID() {
 		return usageID;
@@ -39,10 +39,10 @@ public class InUse {
 	public void setUserID(String userID) {
 		this.userID = userID;
 	}
-	public boolean isUsedInInterval() {
+	public int getUsedInInterval() {
 		return usedInInterval;
 	}
-	public void setUsedInInterval(boolean usedInInterval) {
+	public void setUsedInInterval(int usedInInterval) {
 		this.usedInInterval = usedInInterval;
 	}
 	
