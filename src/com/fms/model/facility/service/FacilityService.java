@@ -9,14 +9,15 @@ public class FacilityService {
 	private BuildingDAO buildingDAO = new BuildingDAO();
 	
 	//Insert new Building
-	public void addBuilding(Building building) {
+	public Building addBuilding(Building building) {
 		
 		try {
-			buildingDAO.insertBuildingInfo(building.getFacilityID(), building.getFacilityName(), building.getAddress(), building.getCity(), building.getState(), building.getZipcode(), building.getType(), building.getCapacity(), building.getPhones(),building.getRooms());
+			return buildingDAO.insertBuildingInfo(building.getFacilityID(), building.getFacilityName(), building.getAddress(), building.getCity(), building.getState(), building.getZipcode(), building.getType(), building.getCapacity(), building.getPhones(),building.getRooms());
 	    } catch (Exception se) {
 	      System.err.println("FacilityService: Threw a Exception adding Facility.");
 	      System.err.println(se.getMessage());
 	    }
+		return null;
 	}
 	
 	//List All Facilities
