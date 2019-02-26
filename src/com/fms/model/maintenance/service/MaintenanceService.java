@@ -105,7 +105,7 @@ public class MaintenanceService {
 	}
 	
 	
-	//Calculate down time for a facility in millisecond
+	//Calculate down time for a facility in days
 	public long MaintenanceDownTimeFacility(String roomID) {
 		long days = 0;
 		try {
