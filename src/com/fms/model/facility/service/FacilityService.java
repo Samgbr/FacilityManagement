@@ -3,14 +3,10 @@ import java.util.Set;
 
 import com.fms.dal.facility.BuildingDAO;
 import com.fms.model.facility.Building;
-import com.fms.model.facility.Phone;
-import com.fms.model.facility.Room;
 
 public class FacilityService {
 	
 	private Building building;
-	private Phone phone;
-	private Room room;
 	
 	public void setBuilding(Building building) {
 	    this.building = building;
@@ -18,22 +14,6 @@ public class FacilityService {
 	
 	public Building getBuilding() {
 		return building;
-	}
-	
-	public void setPhone(Phone phone) {
-	    this.phone = phone;
-	  }
-	
-	public Phone getPhone() {
-		return phone;
-	}
-	
-	public void setRoom(Room room) {
-	    this.room = room;
-	  }
-	
-	public Room getRoom() {
-		return room;
 	}
 
 	private BuildingDAO buildingDAO = new BuildingDAO();

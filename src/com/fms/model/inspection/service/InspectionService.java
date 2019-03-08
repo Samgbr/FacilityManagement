@@ -7,6 +7,16 @@ import com.fms.model.inspection.Inspection;
 
 public class InspectionService {
 	
+	private Inspection inspection;
+	
+	public Inspection getInspection() {
+		return inspection;
+	}
+
+	public void setInspection(Inspection inspection) {
+		this.inspection = inspection;
+	}
+
 	private InspectionDAO inspectionDAO = new InspectionDAO();
 	
 	//Insert inspections

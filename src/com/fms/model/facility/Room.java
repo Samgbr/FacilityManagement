@@ -6,6 +6,8 @@ public class Room implements IRoom{
 	private String type;
 	private String facilityID;
 	
+	public Room() {}
+	
 	public String getRoomID() {
 		return roomID;
 	}

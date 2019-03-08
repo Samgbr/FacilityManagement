@@ -3,22 +3,15 @@ package com.fms.model.facility;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.fms.model.inspection.Inspection;
-
 public class Building extends Facility implements IBuilding{
 
 	private String type;
 	private int capacity;
-	private Set<Phone> phones = new HashSet<Phone>();
-	private Set<Room> rooms = new HashSet<Room>();
-	private Set<Inspection> inspections = new HashSet<>();
+	private Set<Phone> phones = new HashSet<>();
+	private Set<Room> rooms = new HashSet<>();
 	
-	public Set<Inspection> getInspections() {
-		return inspections;
-	}
-	public void setInspections(Set<Inspection> inspections) {
-		this.inspections = inspections;
-	}
+	public Building() {}
+	
 	public Set<Phone> getPhones() {
 		return phones;
 	}

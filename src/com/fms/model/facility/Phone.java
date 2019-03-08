@@ -7,6 +7,8 @@ public class Phone implements IPhone{
 	private String description;
 	private String facilityID;
 	
+	public Phone() {}
+	
 	public String getPhoneID() {
 		return phoneID;
 	}

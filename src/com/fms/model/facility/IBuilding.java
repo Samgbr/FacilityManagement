@@ -2,8 +2,6 @@ package com.fms.model.facility;
 
 import java.util.Set;
 
-import com.fms.model.inspection.Inspection;
-
 public interface IBuilding {
 
 	public String getFacilityID();
@@ -20,7 +18,6 @@ public interface IBuilding {
 	public void setPhones(Set<Phone> phones);
 	public Set<Room> getRooms();
 	public void setRooms(Set<Room> rooms);
-	public Set<Inspection> getInspections();
-	public void setInspections(Set<Inspection> inspections);
+	
 	
 }

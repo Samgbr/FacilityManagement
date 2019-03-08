@@ -9,6 +9,8 @@ public class Facility {
 	private String state;
 	private String zipcode;
 	
+	public Facility() {}
+	
 	public String getFacilityID() {
 		return facilityID;
 	}
