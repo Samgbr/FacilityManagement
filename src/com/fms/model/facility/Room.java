@@ -1,10 +1,12 @@
 package com.fms.model.facility;
 
-public class Room {
+public class Room implements IRoom{
 
 	private String roomID;
 	private String type;
 	private String facilityID;
+	
+	public Room() {}
 	
 	public String getRoomID() {
 		return roomID;

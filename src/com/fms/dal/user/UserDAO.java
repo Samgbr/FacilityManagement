@@ -37,4 +37,9 @@ public class UserDAO {
 		}
 		return user;		
 	}
+
+	public User getUser(String userID) {
+		
+		return null;
+	}
 }

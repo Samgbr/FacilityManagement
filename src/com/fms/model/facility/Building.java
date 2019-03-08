@@ -3,12 +3,14 @@ package com.fms.model.facility;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Building extends Facility{
+public class Building extends Facility implements IBuilding{
 
 	private String type;
 	private int capacity;
-	private Set<Phone> phones = new HashSet<Phone>();
-	private Set<Room> rooms = new HashSet<Room>();
+	private Set<Phone> phones = new HashSet<>();
+	private Set<Room> rooms = new HashSet<>();
+	
+	public Building() {}
 	
 	public Set<Phone> getPhones() {
 		return phones;

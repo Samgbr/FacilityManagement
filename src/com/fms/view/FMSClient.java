@@ -4,6 +4,9 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import com.fms.model.facility.Building;
 import com.fms.model.facility.Phone;
 import com.fms.model.facility.Room;
@@ -27,10 +30,14 @@ public class FMSClient {
 		
 		System.out.println("Facility Creation Started... ");
 		
+		ApplicationContext context = new ClassPathXmlApplicationContext("META-INF/app-context.xml");
+        System.out.println("***************** Application Context instantiated! ******************");
+		
 		
 		Random randomGenerator = new Random();
 	    int randomInt = randomGenerator.nextInt(10000);
 	    String facilityID = "FA" + randomInt;
+	    System.out.println("FacilityID: " + facilityID);
 	    
 	    randomInt = randomGenerator.nextInt(10000);
 	    String phoneID1 = "PH" + randomInt;
@@ -44,14 +51,14 @@ public class FMSClient {
 	    randomInt = randomGenerator.nextInt(10000);
 		String roomID2 = "RM" + randomInt;
 	    
-		addBuilding(facilityID, phoneID1, phoneID2, roomID1, roomID2);
+		Building building = addBuilding(facilityID, phoneID1, phoneID2, roomID1, roomID2, context);
 		
 		
 		Random randomGen = new Random();
 	    int randInt = randomGen.nextInt(10000);
 	    String userID = "USR" + randInt;
 	    
-	    addUser(userID);
+	    User user = addUser(userID, context);
 	    
 	    randomGen = new Random();
 	    randInt = randomGen.nextInt(10000);
@@ -83,7 +90,7 @@ public class FMSClient {
 		randInt = randomGen.nextInt(10000);		
 		String inspectionID = "IN" + randInt;
 		
-		addInspections(inspectionID, userID, facilityID);
+		addInspections(inspectionID, user, building, context);
 		
 		randomGen = new Random();
 		randInt = randomGen.nextInt(10000);		
@@ -132,24 +139,35 @@ public class FMSClient {
 		
 	}
 
-	private static void addInspections(String inspectionID,String userID, String facilityID) {
+	private static void addInspections(String inspectionID, User user, Building building, ApplicationContext context) {
+		
+		InspectionService inspectionService = (InspectionService) context.getBean("inspectionService");
+		
+		Inspection inspection = inspectionService.getInspection();
 		
 		Set<Inspection> inspections = new HashSet<>();
-		Inspection inspection = new Inspection();
+		
+		Building iBuilding = inspection.getBuilding();
+		iBuilding = building;
+		
+		User iUser = inspection.getUser();
+		iUser = user;
 		
 		inspection.setInspectionID(inspectionID);
 		inspection.setDateFrom("2019/03/01");
 		inspection.setDateTo("2019/03/15");
-		inspection.setUserID(userID);
-		inspection.setFacilityID(facilityID);
-		inspection.setInspectionType("Room");
+		inspection.setUserID(iUser.getUserID());
+		inspection.setFacilityID(iBuilding.getFacilityID());
+		inspection.setUser(iUser);
+		inspection.setBuilding(iBuilding);
+		inspection.setInspectionType("Structure");
 		
 		inspections.add(inspection);
 		
-		InspectionService iService = new InspectionService();
-		iService.addInspections(inspections);
+		inspectionService.addInspections(inspections);
+		
 		System.out.println("Inspections: ");
-		for(Inspection i: iService.listInspections()) {
+		for(Inspection i: inspectionService.listInspections()) {
 			System.out.println("InspectionID: " + i.getInspectionID());
 			System.out.println("InspectionType: " + i.getInspectionType());
 		}
@@ -241,30 +259,36 @@ public class FMSClient {
 		return requests;
 	}
 
-	private static void addUser(String userID) {
+	private static User addUser(String userID, ApplicationContext context) {
 		 	System.out.println("Adding a new User.");
+		 	UserService userService = (UserService) context.getBean("userService");
 			//Add User
-			User user = new User();
+		 	User user = (User) context.getBean("user");
 			user.setUserID(userID);
 			user.setName("Peter");
 			user.setAddress("3510 North Street, Chicago,IL");
 			user.setPhoneNumber("7735581010");
 			user.setTypeOfUser("Employee");
 			
-			UserService userService = new UserService();
 			userService.addUser(user);
+			
+			return user;
 		
 	}
 
-	private static void addBuilding(String facilityID, String phoneID1, String phoneID2, String roomID1, String roomID2) {
+	private static Building addBuilding(String facilityID, String phoneID1, String phoneID2, String roomID1, String roomID2, ApplicationContext context) {
 		
 		
 		
 		System.out.println("Building FacilityID Created.");
 		
-		System.out.println("Building FacilityID instance Creation started...");
+		System.out.println("Building FacilityID instance Creation started using Spring...");
+		
+		FacilityService facilityService = (FacilityService) context.getBean("facilityService");
+		
+		Building building = facilityService.getBuilding();
+		
 		//Create a Facility
-		Building building = new Building();
 		building.setFacilityID(facilityID);
 		building.setFacilityName("Branch");
 		building.setAddress("1804 South Ave.");
@@ -274,17 +298,17 @@ public class FMSClient {
 		building.setType("Office");
 		building.setCapacity(20);
 		
-		//Create facility phone numbers
+		Phone phone = (Phone) context.getBean("phone");
 		Set<Phone> phones = new HashSet<>();
 		
-		Phone phone = new Phone();
+		//Create facility phone numbers
 		phone.setPhoneID(phoneID1);
 		phone.setDescription("VP Office phone number");
 		phone.setPhoneNumber("304");
 		phone.setFacilityID(building.getFacilityID());
 		phones.add(phone);
 		
-		phone = new Phone();
+		phone = (Phone) context.getBean("phone");
 		phone.setPhoneID(phoneID2);
 		phone.setDescription("Reception phone number");
 		phone.setPhoneNumber("504");
@@ -295,16 +319,16 @@ public class FMSClient {
 		
 		System.out.println("Building Facility Phones Created.");
 		
-		//List of rooms inside the building
+		Room room = (Room) context.getBean("room");
 		Set<Room> rooms = new HashSet<>();
 		
-		Room room = new Room();
+		//List of rooms inside the building		
 		room.setRoomID(roomID1);
 		room.setType("Conference");
 		room.setFacilityID(building.getFacilityID());
 		rooms.add(room);
 		
-		room = new Room();
+		room = (Room) context.getBean("room");
 		room.setRoomID(roomID2);
 		room.setType("Training Room");
 		room.setFacilityID(building.getFacilityID());
@@ -314,12 +338,15 @@ public class FMSClient {
 		
 		System.out.println("Building Facility Rooms Created.");
 		
-		FacilityService fService = new FacilityService();
-		fService.addBuilding(building);
+		facilityService.addBuilding(building);
+		System.out.println("PhoneID: " + building.getPhones().iterator().next().getPhoneID());
+		System.out.println("RoomID: " + building.getRooms().iterator().next().getRoomID());
 		
 		System.out.println("Facility data inserted successfully.");
 		
-		fService.removeFacility("FA001");  //Tested
+		facilityService.removeFacility("FA001");  //Tested
+		
+		return building;
 		
 	}
 }

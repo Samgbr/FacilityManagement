@@ -1,12 +1,14 @@
 package com.fms.model.user;
 
-public class User {
-
+public class User implements UserI {
+	
 	private String userID;
 	private String Name;
 	private String phoneNumber;
 	private String address;
 	private String typeOfUser;
+	
+	public User() {}
 	
 	public String getUserID() {
 		return userID;
@@ -38,6 +40,7 @@ public class User {
 	public void setTypeOfUser(String typeOfUser) {
 		this.typeOfUser = typeOfUser;
 	}
+	
 	
 	
 }

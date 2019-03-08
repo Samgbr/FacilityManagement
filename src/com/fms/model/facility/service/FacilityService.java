@@ -5,6 +5,16 @@ import com.fms.dal.facility.BuildingDAO;
 import com.fms.model.facility.Building;
 
 public class FacilityService {
+	
+	private Building building;
+	
+	public void setBuilding(Building building) {
+	    this.building = building;
+	  }
+	
+	public Building getBuilding() {
+		return building;
+	}
 
 	private BuildingDAO buildingDAO = new BuildingDAO();
 	
