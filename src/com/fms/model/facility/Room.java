@@ -7,7 +7,7 @@ public class Room implements IRoom{
 	private String facilityID;
 	
 	public Room() {}
-	
+
 	public String getRoomID() {
 		return roomID;
 	}

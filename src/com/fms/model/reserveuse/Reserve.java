@@ -1,14 +1,31 @@
 package com.fms.model.reserveuse;
 
+import com.fms.model.facility.Room;
+import com.fms.model.user.User;
+
 public class Reserve {
 
 	private String reserveID;
 	private String dateFrom;
 	private String dateTo;
 	private String userID;
+	private User user;
 	private String rStatus;
 	private String roomID;
+	private Room room;
 	
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	public Room getRoom() {
+		return room;
+	}
+	public void setRoom(Room room) {
+		this.room = room;
+	}
 	public String getReserveID() {
 		return reserveID;
 	}

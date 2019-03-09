@@ -10,7 +10,7 @@
 	<context:component-scan base-package="com.fms" />
 	
 	<bean id="phone" class="com.fms.model.facility.Phone" scope="prototype"/>
-	<bean id="room" class="com.fms.model.facility.Room" scope="prototype"/>
+	<bean id="room" class="com.fms.model.facility.Room" scope="prototype" />
 	<bean id="user" class="com.fms.model.user.User" scope="prototype" />
 
 	<bean id="inspection" class="com.fms.model.inspection.Inspection" scope="prototype">	

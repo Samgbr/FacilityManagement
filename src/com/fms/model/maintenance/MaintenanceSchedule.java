@@ -6,7 +6,14 @@ public class MaintenanceSchedule {
 	private String dateFrom;
 	private String dateTo;
 	private String morderID;
-
+	private MaintenanceOrder maintenanceOrder;
+	
+	public MaintenanceOrder getMaintenanceOrder() {
+		return maintenanceOrder;
+	}
+	public void setMaintenanceOrder(MaintenanceOrder maintenanceOrder) {
+		this.maintenanceOrder = maintenanceOrder;
+	}
 	public String getMorderID() {
 		return morderID;
 	}
