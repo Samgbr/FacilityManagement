@@ -3,16 +3,16 @@ package com.fms.model.reserveuse;
 import com.fms.model.facility.Room;
 import com.fms.model.user.User;
 
-public class InUse {
+public class InUse implements IInUse {
 
 	private String usageID;
 	private String rStatus;
 	private	String reserveID;
-	private Reserve reserve;
+	private Reserve reserve=new Reserve();
 	private String roomID;
-	private Room room;
+	private Room room=new Room();
 	private String userID;
-	private User user;
+	private User user=new User();
 	
 	public Reserve getReserve() {
 		return reserve;
