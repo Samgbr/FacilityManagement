@@ -30,6 +30,16 @@
 	        </set>
 		</property>
 	</bean>
+	<bean id="reserve" class="com.fms.model.reserveuse.Reserve" scope="prototype">
+		<property name="user" ref="user"/>
+		<property name="room" ref="room"/>
+	</bean>
+	
+	<bean id="inUse" class="com.fms.model.reserveuse.InUse" scope="prototype">
+		<property name="user" ref="user"/>
+		<property name="room" ref="room"/>
+		<property name="reserve" ref="reserve"/>
+	</bean>
 	
 	<bean id="facilityService" class="com.fms.model.facility.service.FacilityService" scope="prototype">
 		<property name="building" ref="building" />
@@ -39,6 +49,12 @@
 	</bean>
 	<bean id="userService" class="com.fms.model.user.service.UserService" scope="prototype">
 		<property name="user" ref="user" />
+	</bean>
+	<bean id="reserveService" class="com.fms.model.reserveuse.service.ReserveuseService" scope="prototype">
+		<property name="reserve" ref="reserve"/>
+	</bean>
+	<bean id="inUseService" class="com.fms.model.reserveuse.service.ReserveuseService" scope="prototype">
+		<property name="inUse" ref="inUse"/>
 	</bean>
 	
 </beans>
