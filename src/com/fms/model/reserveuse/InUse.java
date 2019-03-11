@@ -3,7 +3,7 @@ package com.fms.model.reserveuse;
 import com.fms.model.facility.Room;
 import com.fms.model.user.User;
 
-public class InUse implements IInUse {
+public class InUse {
 
 	private String usageID;
 	private String rStatus;

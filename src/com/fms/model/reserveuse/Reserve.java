@@ -3,7 +3,7 @@ package com.fms.model.reserveuse;
 import com.fms.model.facility.Room;
 import com.fms.model.user.User;
 
-public class Reserve implements IReserve {
+public class Reserve {
 
 	private String reserveID;
 	private String dateFrom;
