@@ -12,6 +12,24 @@
 	<bean id="phone" class="com.fms.model.facility.Phone" scope="prototype"/>
 	<bean id="room" class="com.fms.model.facility.Room" scope="prototype" />
 	<bean id="user" class="com.fms.model.user.User" scope="prototype" />
+	
+	<bean id="maintenanceRequest" class="com.fms.model.maintenance.MaintenanceRequest" scope="prototype">
+		<property name="user" ref="user"/>
+		<property name="room" ref="room"/>
+	</bean>
+	<bean id="maintenanceOrder" class="com.fms.model.maintenance.MaintenanceOrder" scope="prototype">
+		<property name="maintRequests">
+			<set>
+	           <ref bean="maintenanceRequest" />
+	        </set>
+		</property>
+	</bean>
+	<bean id="maintenanceSchedule" class="com.fms.model.maintenance.MaintenanceSchedule" scope="prototype" >
+		<property name="maintenanceOrder" ref="maintenanceOrder"/>
+	</bean>
+	<bean id="maintenance" class="com.fms.model.maintenance.Maintenance" scope="prototype">
+		<property name="maintenanceSchedule" ref="maintenanceSchedule"/>
+	</bean>
 
 	<bean id="inspection" class="com.fms.model.inspection.Inspection" scope="prototype">	
 		<property name="building" ref="building"/>
@@ -39,6 +57,12 @@
 	</bean>
 	<bean id="userService" class="com.fms.model.user.service.UserService" scope="prototype">
 		<property name="user" ref="user" />
+	</bean>
+	<bean id="maintenanceService" class="com.fms.model.maintenance.service.MaintenanceService" scope="prototype">
+		<property name="maintenanceRequest" ref="maintenanceRequest" />
+		<property name="maintenanceOrder" ref="maintenanceOrder" />
+		<property name="maintenanceSchedule" ref="maintenanceSchedule" />
+		<property name="maintenance" ref="maintenance" />
 	</bean>
 	
 </beans>

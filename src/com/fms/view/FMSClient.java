@@ -64,7 +64,7 @@ public class FMSClient {
 	    randInt = randomGen.nextInt(10000);
 	    String requestID = "MR" + randInt;
 	    
-	    Set<MaintenanceRequest> reqsts = addMainReq(requestID, userID, roomID2);
+	    Set<MaintenanceRequest> reqsts = addMainReq(requestID, userID, roomID2, context);
 		
 	    randomGen = new Random();
 		randInt = randomGen.nextInt(10000);
@@ -236,7 +236,7 @@ public class FMSClient {
 		
 	}
 
-	private static Set<MaintenanceRequest> addMainReq(String requestID, String userID, String roomID2) {
+	private static Set<MaintenanceRequest> addMainReq(String requestID, String userID, String roomID2, ApplicationContext context) {
 		
 		System.out.println("Adding Maintenance Request");
 		
