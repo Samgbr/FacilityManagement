@@ -1,5 +1,6 @@
 package com.fms.model.user;
 
+import com.fms.model.reserveuse.IInUse;
 import com.fms.model.reserveuse.IReserve;
 
 public class User implements UserI {
@@ -10,6 +11,7 @@ public class User implements UserI {
 	private String address;
 	private String typeOfUser;
 	private IReserve reserve;
+	private IInUse inUse;
 	
 	public User() {}
 	
@@ -53,6 +55,13 @@ public class User implements UserI {
 	public void setIReserve(IReserve reserve) {
 		this.reserve=reserve;
 		
+	}
+	public IInUse getInUse() {
+		return inUse;
+	}
+
+	public void setIInUse(IInUse inUse) {
+		this.inUse=inUse;
 	}
 	
 	
