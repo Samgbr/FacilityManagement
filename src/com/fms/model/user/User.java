@@ -1,5 +1,7 @@
 package com.fms.model.user;
 
+import com.fms.model.reserveuse.IReserve;
+
 public class User implements UserI {
 	
 	private String userID;
@@ -7,6 +9,7 @@ public class User implements UserI {
 	private String phoneNumber;
 	private String address;
 	private String typeOfUser;
+	private IReserve reserve;
 	
 	public User() {}
 	
@@ -39,6 +42,17 @@ public class User implements UserI {
 	}
 	public void setTypeOfUser(String typeOfUser) {
 		this.typeOfUser = typeOfUser;
+	}
+
+	
+	public IReserve getReserve() {
+		return reserve;
+	}
+
+
+	public void setIReserve(IReserve reserve) {
+		this.reserve=reserve;
+		
 	}
 	
 	

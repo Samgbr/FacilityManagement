@@ -1,5 +1,7 @@
 package com.fms.model.user;
 
+import com.fms.model.reserveuse.IReserve;
+
 public interface UserI {
 	
 	public String getUserID();
@@ -12,5 +14,7 @@ public interface UserI {
 	public void setAddress(String address);
 	public String getTypeOfUser();
 	public void setTypeOfUser(String typeOfUser);
+	public IReserve getReserve();
+	public void setIReserve(IReserve reserve);
 
 }
