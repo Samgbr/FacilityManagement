@@ -11,7 +11,10 @@
 	
 	<bean id="phone" class="com.fms.model.facility.Phone" scope="prototype"/>
 	<bean id="room" class="com.fms.model.facility.Room" scope="prototype" />
-	<bean id="user" class="com.fms.model.user.User" scope="prototype" />
+	<bean id="user" class="com.fms.model.user.User" scope="prototype" >
+		<property name="reserve" ref="reserve" />
+		<property name="inUse" ref="inUse" />
+	</bean>
 	
 	<bean id="maintenanceRequest" class="com.fms.model.maintenance.MaintenanceRequest" scope="prototype">
 		<property name="user" ref="user"/>
@@ -49,14 +52,11 @@
 		</property>
 	</bean>
 	<bean id="reserve" class="com.fms.model.reserveuse.Reserve" scope="prototype">
-		<property name="user" ref="user"/>
 		<property name="room" ref="room"/>
 	</bean>
 	
 	<bean id="inUse" class="com.fms.model.reserveuse.InUse" scope="prototype">
-		<property name="user" ref="user"/>
 		<property name="room" ref="room"/>
-		<property name="reserve" ref="reserve"/>
 	</bean>
 	
 	<bean id="facilityService" class="com.fms.model.facility.service.FacilityService" scope="prototype">
@@ -68,11 +68,9 @@
 	<bean id="userService" class="com.fms.model.user.service.UserService" scope="prototype">
 		<property name="user" ref="user" />
 	</bean>
-	<bean id="reserveService" class="com.fms.model.reserveuse.service.ReserveuseService" scope="prototype">
+	<bean id="reserveuseService" class="com.fms.model.reserveuse.service.ReserveuseService" scope="prototype">
 		<property name="reserve" ref="reserve"/>
-	</bean>
-	<bean id="inUseService" class="com.fms.model.reserveuse.service.ReserveuseService" scope="prototype">
-		<property name="inUse" ref="inUse"/>
+		<property name="inUse" ref="inUse" />
 	</bean>
 	<bean id="maintenanceService" class="com.fms.model.maintenance.service.MaintenanceService" scope="prototype">
 		<property name="maintenanceRequest" ref="maintenanceRequest" />
