@@ -1,24 +1,23 @@
 package com.fms.model.reserveuse;
 
 import com.fms.model.facility.Room;
-import com.fms.model.user.User;
 
-public class Reserve {
+public class Reserve implements IReserve {
 
 	private String reserveID;
 	private String dateFrom;
 	private String dateTo;
 	private String userID;
-	private User user;
 	private String rStatus;
 	private String roomID;
 	private Room room;
+	private InUse inUse;
 	
-	public User getUser() {
-		return user;
+	public InUse getInUse() {
+		return inUse;
 	}
-	public void setUser(User user) {
-		this.user = user;
+	public void setInUse(InUse inUse) {
+		this.inUse = inUse;
 	}
 	public Room getRoom() {
 		return room;

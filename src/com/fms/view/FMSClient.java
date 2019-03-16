@@ -58,31 +58,31 @@ public class FMSClient {
 	    int randInt = randomGen.nextInt(10000);
 	    String userID = "USR" + randInt;
 	    
-	    User user = addUser(userID, context);
-	    
 	    randomGen = new Random();
 	    randInt = randomGen.nextInt(10000);
 	    String requestID = "MR" + randInt;
 	    
-	    Set<MaintenanceRequest> reqsts = addMainReq(requestID, userID, roomID2);
+	    User user = addUser(userID, context);
+	    
+	    MaintenanceRequest reqst = addMainReq(requestID, user, roomID2, context);
 		
 	    randomGen = new Random();
 		randInt = randomGen.nextInt(10000);
 		String morderID = "MO" + randInt;
 		
-		addMaintOrder(morderID, reqsts);
+		MaintenanceOrder order = addMaintOrder(morderID, reqst, context);
 		
 		randomGen = new Random();
 		randInt = randomGen.nextInt(10000);
 		String scheduleID = "SC" + randInt;
 		
-		addMaintSchedule(scheduleID, morderID);
+		MaintenanceSchedule schedule = addMaintSchedule(scheduleID, order, context);
 		
 		randomGen = new Random();
 		randInt = randomGen.nextInt(10000);
 		String maintenanceID = "MN" + randInt;
 		
-		addMaintenance(maintenanceID, morderID, scheduleID);
+		addMaintenance(maintenanceID, morderID, schedule, context);
 		
 		OtherMaintMethods(roomID2);
 		
@@ -90,7 +90,7 @@ public class FMSClient {
 		randInt = randomGen.nextInt(10000);		
 		String inspectionID = "IN" + randInt;
 		
-		addInspections(inspectionID, user, building, context);
+		addInspections(inspectionID, building, context);
 		
 		randomGen = new Random();
 		randInt = randomGen.nextInt(10000);		
@@ -139,7 +139,7 @@ public class FMSClient {
 		
 	}
 
-	private static void addInspections(String inspectionID, User user, Building building, ApplicationContext context) {
+	private static void addInspections(String inspectionID, Building building, ApplicationContext context) {
 		
 		InspectionService inspectionService = (InspectionService) context.getBean("inspectionService");
 		
@@ -150,27 +150,23 @@ public class FMSClient {
 		Building iBuilding = inspection.getBuilding();
 		iBuilding = building;
 		
-		User iUser = inspection.getUser();
-		iUser = user;
-		
 		inspection.setInspectionID(inspectionID);
 		inspection.setDateFrom("2019/03/01");
 		inspection.setDateTo("2019/03/15");
-		inspection.setUserID(iUser.getUserID());
+		inspection.setInspectedBy("Namipp Corp.");
 		inspection.setFacilityID(iBuilding.getFacilityID());
-		inspection.setUser(iUser);
 		inspection.setBuilding(iBuilding);
 		inspection.setInspectionType("Structure");
 		
 		inspections.add(inspection);
 		
 		inspectionService.addInspections(inspections);
-		
+		/*
 		System.out.println("Inspections: ");
 		for(Inspection i: inspectionService.listInspections()) {
 			System.out.println("InspectionID: " + i.getInspectionID());
 			System.out.println("InspectionType: " + i.getInspectionType());
-		}
+		} */
 		
 	}
 
@@ -183,87 +179,90 @@ public class FMSClient {
 		System.out.println("Down time for Facility: " + mService.MaintenanceDownTimeFacility(roomID2) + " " + "days.");	
 	}
 
-	private static void addMaintenance(String maintenanceID, String morderID, String scheduleID) {
+	private static void addMaintenance(String maintenanceID, String morderID, MaintenanceSchedule schedule, ApplicationContext context) {
+		
+		MaintenanceService maintenanceService = new MaintenanceService();
+		
 		System.out.println("Adding Maintenance Activity");
 		
 		//Insert Maintenance Activity
-		Maintenance maintenance = new Maintenance();
+		Maintenance maintenance = schedule.getMaintenance();
 		maintenance.setMaintenanceID(maintenanceID);
 		maintenance.setType("Engineering");
 		maintenance.setMaintenanceStart("2019/03/02");
 		maintenance.setMaintenanceEnd("2019/03/16");
 		maintenance.setCost(10004.75);
 		maintenance.setSStatus("InProcess");
-		maintenance.setScheduleID(scheduleID);
+		maintenance.setScheduleID(schedule.getScheduleID());
 		maintenance.setMOrderID(morderID);
 		
-		MaintenanceService mService = new MaintenanceService();
-		mService.addMaintenance(maintenance);
+		maintenanceService.addMaintenance(maintenance);
 		
 	}
 
-	private static void addMaintSchedule(String scheduleID, String morderID) {
+	private static MaintenanceSchedule addMaintSchedule(String scheduleID, MaintenanceOrder order, ApplicationContext context) {
 		
+		MaintenanceService maintenanceService = new MaintenanceService();
 		System.out.println("Adding Maintenance Schedule");
 		
 		//Maintenance Schedule
-		MaintenanceSchedule schedule =  new MaintenanceSchedule();
+		MaintenanceSchedule schedule = order.getMaintenanceSchedule(); 
 		schedule.setScheduleID(scheduleID);
 		schedule.setDateFrom("2019/03/01");
 		schedule.setDateTo("2019/03/15");
-		schedule.setMorderID(morderID);
+		schedule.setMorderID(order.getMorderID());
 		
-		MaintenanceService mService = new MaintenanceService();
-		mService.addMaintenanceSchedule(schedule);
+		maintenanceService.addMaintenanceSchedule(schedule);
+		
+		return schedule;
 		
 	}
 
-	private static void addMaintOrder(String morderID, Set<MaintenanceRequest> requests) {
+	private static MaintenanceOrder addMaintOrder(String morderID, MaintenanceRequest request, ApplicationContext context) {
+		
+		MaintenanceService maintenanceService = new MaintenanceService();
 		//Add Maintenance Order
-		MaintenanceOrder morder = new MaintenanceOrder();
+		MaintenanceOrder morder = request.getMaintenanceOrder();
 				
 		morder.setMorderID(morderID);
 		morder.setOrderDate("2019/02/18");
 		morder.setmStatus("Filled");
-		morder.setMaintRequests(requests);
 				
-		MaintenanceService mService = new MaintenanceService();
-		mService.addMaintenanceOrder(morder);
-		
+		maintenanceService.addMaintenanceOrder(morder);
+		maintenanceService.UpdateRequest(request.getRequestID(), morderID);
+		/*
 		for(MaintenanceRequest r: requests) {
 			mService.UpdateRequest(r.getRequestID(),morderID);
-		}
-		
+		} */
+		return morder;
 	}
-
-	private static Set<MaintenanceRequest> addMainReq(String requestID, String userID, String roomID2) {
+	
+	private static MaintenanceRequest addMainReq(String requestID, User user, String roomID2, ApplicationContext context) {
 		
 		System.out.println("Adding Maintenance Request");
 		
 		//Add Maintenance request
-		MaintenanceRequest request = new MaintenanceRequest();
-		Set<MaintenanceRequest> requests = new HashSet<>();
+		MaintenanceRequest request = user.getMaintenanceRequest();
 	    
 		request.setRequestID(requestID);
 		request.setDescription("Chair Broken");
 		request.setRequestDate("2019/02/18");
-		request.setUserID(userID);
+		request.setUserID(user.getUserID());
 		request.setRoomID(roomID2);
-		
-		requests.add(request);
 		
 		MaintenanceService mService = new MaintenanceService();
 		mService.addMaintenanceRequest(request);
+		System.out.println("RoomID: " + request.getRoomID());
 		System.out.println("Adding Maintenance order for the requests");
 		
-		return requests;
-	}
+		return request;
+	}  
 
 	private static User addUser(String userID, ApplicationContext context) {
 		 	System.out.println("Adding a new User.");
 		 	UserService userService = (UserService) context.getBean("userService");
 			//Add User
-		 	User user = (User) context.getBean("user");
+		 	User user = userService.getUser();
 			user.setUserID(userID);
 			user.setName("Peter");
 			user.setAddress("3510 North Street, Chicago,IL");
@@ -271,6 +270,9 @@ public class FMSClient {
 			user.setTypeOfUser("Employee");
 			
 			userService.addUser(user);
+			System.out.println("UserID: " + user.getUserID());
+			
+			System.out.println("Adding Maintenance Request");
 			
 			return user;
 		
@@ -298,49 +300,53 @@ public class FMSClient {
 		building.setType("Office");
 		building.setCapacity(20);
 		
-		Phone phone = (Phone) context.getBean("phone");
+		//We have tried to use the building.getPhones(); but not works it needs new Object using the new operator
 		Set<Phone> phones = new HashSet<>();
 		
+		Phone phone = (Phone) context.getBean("phone");
 		//Create facility phone numbers
 		phone.setPhoneID(phoneID1);
 		phone.setDescription("VP Office phone number");
 		phone.setPhoneNumber("304");
-		phone.setFacilityID(building.getFacilityID());
+		phone.setFacilityID(facilityID);
 		phones.add(phone);
 		
 		phone = (Phone) context.getBean("phone");
 		phone.setPhoneID(phoneID2);
 		phone.setDescription("Reception phone number");
 		phone.setPhoneNumber("504");
-		phone.setFacilityID(building.getFacilityID());
+		phone.setFacilityID(facilityID);
 		phones.add(phone);
 		
 		building.setPhones(phones);
 		
+		//System.out.println(building.getPhones().iterator().next().getFacilityID());
+		
 		System.out.println("Building Facility Phones Created.");
 		
-		Room room = (Room) context.getBean("room");
+		//We have tried to use the building.getRooms(); but not works it needs new Object using the new operator
 		Set<Room> rooms = new HashSet<>();
 		
+		Room room = (Room) context.getBean("room");
 		//List of rooms inside the building		
 		room.setRoomID(roomID1);
 		room.setType("Conference");
-		room.setFacilityID(building.getFacilityID());
+		room.setFacilityID(facilityID);
 		rooms.add(room);
 		
 		room = (Room) context.getBean("room");
 		room.setRoomID(roomID2);
 		room.setType("Training Room");
-		room.setFacilityID(building.getFacilityID());
+		room.setFacilityID(facilityID);
 		rooms.add(room);
 		
 		building.setRooms(rooms);
 		
 		System.out.println("Building Facility Rooms Created.");
-		
+	
 		facilityService.addBuilding(building);
-		System.out.println("PhoneID: " + building.getPhones().iterator().next().getPhoneID());
-		System.out.println("RoomID: " + building.getRooms().iterator().next().getRoomID());
+		//System.out.println("PhoneID: " + building.getPhones().iterator().next().getPhoneID());
+		//System.out.println("RoomID: " + building.getRooms().iterator().next().getRoomID());
 		
 		System.out.println("Facility data inserted successfully.");
 		

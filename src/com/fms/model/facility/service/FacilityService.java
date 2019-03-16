@@ -22,6 +22,7 @@ public class FacilityService {
 	public Building addBuilding(Building building) {
 		
 		try {
+			//System.out.println("DAOPhoneID: " + building.getPhones().iterator().next().getPhoneID());
 			return buildingDAO.insertBuildingInfo(building.getFacilityID(), building.getFacilityName(), building.getAddress(), building.getCity(), building.getState(), building.getZipcode(), building.getType(), building.getCapacity(), building.getPhones(),building.getRooms());
 	    } catch (Exception se) {
 	      System.err.println("FacilityService: Threw a Exception adding Facility.");

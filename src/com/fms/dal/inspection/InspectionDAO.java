@@ -10,12 +10,10 @@ import java.util.Set;
 
 import com.fms.dal.DBConnect;
 import com.fms.dal.facility.BuildingDAO;
-import com.fms.dal.user.UserDAO;
 import com.fms.model.inspection.Inspection;
 
 public class InspectionDAO {
 	
-	private UserDAO userDAO = new UserDAO();
 	private BuildingDAO buildingDAO = new BuildingDAO();
 	
 	//Insert inspection informations
@@ -29,8 +27,8 @@ public class InspectionDAO {
 				
 				Inspection currentInspection=inspectionIterator.next();
 				
-				String insertQuery="INSERT INTO inspection(InspectionID,DateFrom,DateTo,UserID,FacilityID,InspectionType) "
-						+"VALUES('"+currentInspection.getInspectionID()+"','"+currentInspection.getDateFrom()+"','"+currentInspection.getDateTo()+"','"+currentInspection.getUser().getUserID()+"','"+currentInspection.getBuilding().getFacilityID()+"','"+currentInspection.getInspectionType()+"')";
+				String insertQuery="INSERT INTO inspection(InspectionID,DateFrom,DateTo,InspectedBy,FacilityID,InspectionType) "
+						+"VALUES('"+currentInspection.getInspectionID()+"','"+currentInspection.getDateFrom()+"','"+currentInspection.getDateTo()+"','"+currentInspection.getInspectedBy()+"','"+currentInspection.getBuilding().getFacilityID()+"','"+currentInspection.getInspectionType()+"')";
 				insertStatement.executeUpdate(insertQuery);
 			}
 		}catch(SQLException se) {
@@ -63,7 +61,7 @@ public class InspectionDAO {
 				String inspectionID=resultSet.getString("InspectionID");
 				String dateFrom=resultSet.getString("DateFrom");
 				String dateTo=resultSet.getString("DateTo");
-				String userID=resultSet.getString("UserID");
+				String inspectedBy=resultSet.getString("InspectedBy");
 				String facilityID=resultSet.getString("FacilityID");
 				String inspectionType=resultSet.getString("InspectionType");
 				
@@ -71,7 +69,7 @@ public class InspectionDAO {
 				inspection.setInspectionID(inspectionID);
 				inspection.setDateFrom(dateFrom);
 				inspection.setDateTo(dateTo);
-				inspection.setUser(userDAO.getUser(userID));
+				inspection.setInspectedBy(inspectedBy);
 				inspection.setBuilding(buildingDAO.getFacility(facilityID));
 				inspection.setInspectionType(inspectionType);
 				inspections.add(inspection);

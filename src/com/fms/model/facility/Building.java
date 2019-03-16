@@ -1,14 +1,13 @@
 package com.fms.model.facility;
 
-import java.util.HashSet;
 import java.util.Set;
 
 public class Building extends Facility implements IBuilding{
 
 	private String type;
 	private int capacity;
-	private Set<Phone> phones = new HashSet<>();
-	private Set<Room> rooms = new HashSet<>();
+	private Set<Phone> phones;
+	private Set<Room> rooms;
 	
 	public Building() {}
 	
@@ -36,6 +35,5 @@ public class Building extends Facility implements IBuilding{
 	public void setCapacity(int capacity) {
 		this.capacity = capacity;
 	}
-	
 	
 }

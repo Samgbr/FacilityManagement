@@ -8,7 +8,7 @@ import com.fms.model.reserveuse.InUse;
 import com.fms.model.reserveuse.Reserve;
 
 public class ReserveuseService {
-	
+
 	//Insert new InUSe
 	private InUseDAO inUseDAO = new InUseDAO();
 	private ReserveDAO reserveDAO = new ReserveDAO();
