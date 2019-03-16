@@ -1,20 +1,17 @@
 package com.fms.model.maintenance;
 
-import java.util.HashSet;
-import java.util.Set;
-
-public class MaintenanceOrder {
+public class MaintenanceOrder implements IMaintenanceOrder {
 
 	private String morderID;
 	private String orderDate;
 	private String mStatus;
-	Set<MaintenanceRequest> maintRequests = new HashSet<>();
+	private MaintenanceSchedule maintenanceSchedule;
 	
-	public Set<MaintenanceRequest> getMaintRequests() {
-		return maintRequests;
+	public MaintenanceSchedule getMaintenanceSchedule() {
+		return maintenanceSchedule;
 	}
-	public void setMaintRequests(Set<MaintenanceRequest> maintRequests) {
-		this.maintRequests = maintRequests;
+	public void setMaintenanceSchedule(MaintenanceSchedule maintenanceSchedule) {
+		this.maintenanceSchedule = maintenanceSchedule;
 	}
 	public String getMorderID() {
 		return morderID;
@@ -33,7 +30,6 @@ public class MaintenanceOrder {
 	}
 	public void setmStatus(String mStatus) {
 		this.mStatus = mStatus;
-	}
-	
+	}	
 	
 }

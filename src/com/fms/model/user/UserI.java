@@ -1,7 +1,7 @@
 package com.fms.model.user;
 
-import com.fms.model.reserveuse.IInUse;
-import com.fms.model.reserveuse.IReserve;
+import com.fms.model.maintenance.MaintenanceRequest;
+import com.fms.model.reserveuse.Reserve;
 
 public interface UserI {
 	
@@ -15,9 +15,9 @@ public interface UserI {
 	public void setAddress(String address);
 	public String getTypeOfUser();
 	public void setTypeOfUser(String typeOfUser);
-	public IReserve getReserve();
-	public void setIReserve(IReserve reserve);
-	public IInUse getInUse();
-	public void setIInUse(IInUse inUse);
+	public Reserve getReserve();
+	public void setReserve(Reserve reserve);
+	public MaintenanceRequest getMaintenanceRequest();
+	public void setMaintenanceRequest(MaintenanceRequest maintenanceRequest);
 
 }

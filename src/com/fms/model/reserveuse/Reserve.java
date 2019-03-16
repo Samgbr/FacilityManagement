@@ -1,7 +1,6 @@
 package com.fms.model.reserveuse;
 
 import com.fms.model.facility.Room;
-import com.fms.model.user.User;
 
 public class Reserve implements IReserve {
 
@@ -9,12 +8,17 @@ public class Reserve implements IReserve {
 	private String dateFrom;
 	private String dateTo;
 	private String userID;
-	//private User user=new User();
 	private String rStatus;
 	private String roomID;
 	private Room room;
+	private InUse inUse;
 	
-
+	public InUse getInUse() {
+		return inUse;
+	}
+	public void setInUse(InUse inUse) {
+		this.inUse = inUse;
+	}
 	public Room getRoom() {
 		return room;
 	}

@@ -1,22 +1,21 @@
 package com.fms.model.maintenance;
 
 import com.fms.model.facility.Room;
-import com.fms.model.user.User;
 
-public class MaintenanceRequest {
+public class MaintenanceRequest implements IMaintenanceRequest{
 
 	private String requestID;
 	private String description;
 	private String userID;
-	private User user;
 	private String roomID;
 	private Room room;
+	private MaintenanceOrder maintenanceOrder;
 	
-	public User getUser() {
-		return user;
+	public MaintenanceOrder getMaintenanceOrder() {
+		return maintenanceOrder;
 	}
-	public void setUser(User user) {
-		this.user = user;
+	public void setMaintenanceOrder(MaintenanceOrder maintenanceOrder) {
+		this.maintenanceOrder = maintenanceOrder;
 	}
 	public Room getRoom() {
 		return room;

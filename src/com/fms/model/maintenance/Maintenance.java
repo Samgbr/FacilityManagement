@@ -1,6 +1,6 @@
 package com.fms.model.maintenance;
 
-public class Maintenance {
+public class Maintenance implements IMaintenance{
 
 	private String maintenanceID;
 	private String type;
@@ -9,14 +9,6 @@ public class Maintenance {
 	private double cost;
 	private String SStatus;
 	private String scheduleID;
-	private MaintenanceSchedule maintenanceSchedule;
-	
-	public MaintenanceSchedule getMaintenanceSchedule() {
-		return maintenanceSchedule;
-	}
-	public void setMaintenanceSchedule(MaintenanceSchedule maintenanceSchedule) {
-		this.maintenanceSchedule = maintenanceSchedule;
-	}
 	private String MOrderID;
 	
 	public String getMaintenanceID() {

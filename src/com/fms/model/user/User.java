@@ -1,7 +1,7 @@
 package com.fms.model.user;
 
-import com.fms.model.reserveuse.IInUse;
-import com.fms.model.reserveuse.IReserve;
+import com.fms.model.maintenance.MaintenanceRequest;
+import com.fms.model.reserveuse.Reserve;
 
 public class User implements UserI {
 	
@@ -10,11 +10,19 @@ public class User implements UserI {
 	private String phoneNumber;
 	private String address;
 	private String typeOfUser;
-	private IReserve reserve;
-	private IInUse inUse;
+	private Reserve reserve;
+	private MaintenanceRequest maintenanceRequest;
 	
 	public User() {}
-	
+
+	public MaintenanceRequest getMaintenanceRequest() {
+		return maintenanceRequest;
+	}
+
+	public void setMaintenanceRequest(MaintenanceRequest maintenanceRequest) {
+		this.maintenanceRequest = maintenanceRequest;
+	}
+
 	public String getUserID() {
 		return userID;
 	}
@@ -46,24 +54,13 @@ public class User implements UserI {
 		this.typeOfUser = typeOfUser;
 	}
 
-	
-	public IReserve getReserve() {
+	public Reserve getReserve() {
 		return reserve;
 	}
 
-
-	public void setIReserve(IReserve reserve) {
-		this.reserve=reserve;
-		
+	public void setReserve(Reserve reserve) {
+		this.reserve = reserve;
 	}
-	public IInUse getInUse() {
-		return inUse;
-	}
-
-	public void setIInUse(IInUse inUse) {
-		this.inUse=inUse;
-	}
-	
 	
 	
 }

@@ -2,7 +2,6 @@ package com.fms.model.inspection;
 
 
 import com.fms.model.facility.Building;
-import com.fms.model.user.User;
 
 public class Inspection implements IInspection{
 
@@ -10,25 +9,24 @@ public class Inspection implements IInspection{
 	private String dateFrom;
 	private String dateTo;
 	private String inspectionType;
-	private String userID;
+	private String inspectedBy;
 	private String facilityID;
-	private User user = new User();
-	private Building building = new Building();
+	private Building building;
 	
+	public String getInspectedBy() {
+		return inspectedBy;
+	}
+
+	public void setInspectedBy(String inspectedBy) {
+		this.inspectedBy = inspectedBy;
+	}
+
 	public Building getBuilding() {
 		return building;
 	}
 
 	public void setBuilding(Building building) {
 		this.building = building;
-	}
-
-	public String getUserID() {
-		return userID;
-	}
-
-	public void setUserID(String userID) {
-		this.userID = userID;
 	}
 
 	public String getFacilityID() {
@@ -41,12 +39,6 @@ public class Inspection implements IInspection{
 
 	public Inspection() {}
 	
-	public User getUser() {
-		return user;
-	}
-	public void setUser(User user) {
-		this.user = user;
-	}
 	public String getInspectionID() {
 		return inspectionID;
 	}

@@ -1,18 +1,18 @@
 package com.fms.model.maintenance;
 
-public class MaintenanceSchedule {
+public class MaintenanceSchedule implements IMaintenanceSchedule{
 
 	private String scheduleID;
 	private String dateFrom;
 	private String dateTo;
 	private String morderID;
-	private MaintenanceOrder maintenanceOrder;
+	private Maintenance maintenance;
 	
-	public MaintenanceOrder getMaintenanceOrder() {
-		return maintenanceOrder;
+	public Maintenance getMaintenance() {
+		return maintenance;
 	}
-	public void setMaintenanceOrder(MaintenanceOrder maintenanceOrder) {
-		this.maintenanceOrder = maintenanceOrder;
+	public void setMaintenance(Maintenance maintenance) {
+		this.maintenance = maintenance;
 	}
 	public String getMorderID() {
 		return morderID;

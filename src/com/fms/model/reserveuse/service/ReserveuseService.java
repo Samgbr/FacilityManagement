@@ -8,26 +8,6 @@ import com.fms.model.reserveuse.InUse;
 import com.fms.model.reserveuse.Reserve;
 
 public class ReserveuseService {
-	private Reserve reserve;
-	private InUse inUse;
-	
-	
-	public Reserve getReserve() {
-		return reserve;
-	}
-
-	public void setReserve(Reserve reserve) {
-		this.reserve = reserve;
-	}
-
-	public InUse getInUse() {
-		return inUse;
-	}
-
-	public void setInUse(InUse inUse) {
-		this.inUse = inUse;
-	}
-
 
 	//Insert new InUSe
 	private InUseDAO inUseDAO = new InUseDAO();

@@ -12,43 +12,6 @@ import com.fms.model.maintenance.MaintenanceRequest;
 import com.fms.model.maintenance.MaintenanceSchedule;
 
 public class MaintenanceService {
-	
-	private MaintenanceRequest maintenanceRequest;
-	private MaintenanceOrder maintenanceOrder;
-	private MaintenanceSchedule maintenanceSchedule;
-	private Maintenance maintenance;
-
-	public MaintenanceRequest getMaintenanceRequest() {
-		return maintenanceRequest;
-	}
-
-	public void setMaintenanceRequest(MaintenanceRequest maintenanceRequest) {
-		this.maintenanceRequest = maintenanceRequest;
-	}
-
-	public MaintenanceOrder getMaintenanceOrder() {
-		return maintenanceOrder;
-	}
-
-	public void setMaintenanceOrder(MaintenanceOrder maintenanceOrder) {
-		this.maintenanceOrder = maintenanceOrder;
-	}
-
-	public MaintenanceSchedule getMaintenanceSchedule() {
-		return maintenanceSchedule;
-	}
-
-	public void setMaintenanceSchedule(MaintenanceSchedule maintenanceSchedule) {
-		this.maintenanceSchedule = maintenanceSchedule;
-	}
-
-	public Maintenance getMaintenance() {
-		return maintenance;
-	}
-
-	public void setMaintenance(Maintenance maintenance) {
-		this.maintenance = maintenance;
-	}
 
 	private MaintenanceDAO maintenanceDAO = new MaintenanceDAO();
 	private MaintenanceOrderDAO maintenanceOrderDAO = new MaintenanceOrderDAO();
