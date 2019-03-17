@@ -100,30 +100,31 @@ public class FMSClient {
 		randInt = randomGen.nextInt(10000);		
 		String usageID = "US" + randInt;
 		
-		addReservationUse(reserveID, userID, roomID2, usageID);
+		addReservationUse(reserveID, user, roomID2, usageID);
 		
 		System.out.println("Finished Successfully");
 		
 	}
 
-	private static void addReservationUse(String reserveID, String userID, String roomID2, String usageID) {
+	private static void addReservationUse(String reserveID, User user, String roomID2, String usageID) {
 		
-		Reserve reserve = new Reserve();
+		Reserve reserve = user.getReserve();
 		reserve.setReserveID(reserveID);
 		reserve.setDateFrom("2019/03/01");
 		reserve.setDateTo("2019/03/15");
-		reserve.setUserID(userID);
+		reserve.setUserID(user.getUserID());
 		reserve.setRoomID(roomID2);
 		reserve.setrStatus("Reserved");
 		
 		ReserveuseService ruService = new ReserveuseService();
+		
 		ruService.addReservation(reserve);
 		
-		InUse inUse = new InUse();
+		InUse inUse = reserve.getInUse();
 		inUse.setUsageID(usageID);
 		inUse.setReserveID(reserveID);
 		inUse.setRoomID(roomID2);
-		inUse.setUserID(userID);
+		inUse.setUserID(user.getUserID());
 		inUse.setrStatus("Occupied");
 		inUse.setUsedInInterval(0);
 		
