@@ -9,12 +9,9 @@ import java.util.Iterator;
 import java.util.Set;
 
 import com.fms.dal.DBConnect;
-import com.fms.dal.facility.BuildingDAO;
 import com.fms.model.inspection.Inspection;
 
 public class InspectionDAO {
-	
-	private BuildingDAO buildingDAO = new BuildingDAO();
 	
 	//Insert inspection informations
 	public Set<Inspection> insertInspectionInfo(Set<Inspection> inspections){
@@ -62,7 +59,6 @@ public class InspectionDAO {
 				String dateFrom=resultSet.getString("DateFrom");
 				String dateTo=resultSet.getString("DateTo");
 				String inspectedBy=resultSet.getString("InspectedBy");
-				String facilityID=resultSet.getString("FacilityID");
 				String inspectionType=resultSet.getString("InspectionType");
 				
 				Inspection inspection=new Inspection();
@@ -70,7 +66,6 @@ public class InspectionDAO {
 				inspection.setDateFrom(dateFrom);
 				inspection.setDateTo(dateTo);
 				inspection.setInspectedBy(inspectedBy);
-				inspection.setBuilding(buildingDAO.getFacility(facilityID));
 				inspection.setInspectionType(inspectionType);
 				inspections.add(inspection);
 				

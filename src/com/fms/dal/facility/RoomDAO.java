@@ -13,7 +13,7 @@ import com.fms.model.facility.Room;
 
 public class RoomDAO {
 
-	public Set<Room> insertRoomInfos(Set<Room> rooms) {
+	public Set<Room> insertRoomInfos(Set<Room> rooms, String facilityID) {
 		
 		Connection connection = DBConnect.getDatabaseConnection();
 		try {
@@ -30,7 +30,7 @@ public class RoomDAO {
 				Room currentRoom = roomIterator.next(); 
 				
 				String insertQuery = "INSERT INTO room(RoomID, RoomType, FacilityID) "
-						+ "VALUES('"+currentRoom.getRoomID()+"','"+currentRoom.getType()+"','"+currentRoom.getFacilityID()+"')";
+						+ "VALUES('"+currentRoom.getRoomID()+"','"+currentRoom.getType()+"','"+facilityID+"')";
 				insertStatement.executeUpdate(insertQuery);
 				
 			}		
@@ -63,12 +63,10 @@ public class RoomDAO {
 			while(resultSet.next()) {
 				String roomID= resultSet.getString("RoomID");
 				String type = resultSet.getString("RoomType");
-				String facilityID = resultSet.getString("FacilityID");
 				
 				Room room = new Room();
 				room.setRoomID(roomID);
 				room.setType(type);
-				room.setFacilityID(facilityID);
 				rooms.add(room);
 			}
 			
@@ -104,5 +102,39 @@ public class RoomDAO {
 		}
 		
 	}
+	
+	//Get room by RoomID
+	
+		public Room getRoomByID(String rid) {
+			
+			Connection connection = DBConnect.getDatabaseConnection();
+			Room room = new Room();
+			try {
+				Statement selectStatement = connection.createStatement();
+				
+				String selectQuery = "SELECT * from room WHERE RoomID='"+rid+"'";
+				ResultSet resultSet = selectStatement.executeQuery(selectQuery);
+				
+				while(resultSet.next()) {
+					String roomID= resultSet.getString("RoomID");
+					String type = resultSet.getString("RoomType");
+					
+					room.setRoomID(roomID);
+					room.setType(type);
+				}
+				
+			}catch(SQLException se) {
+				se.printStackTrace();
+			}finally {
+				if(connection != null) {
+					try {
+						connection.close();
+					} catch (SQLException e) {}
+				}
+			}
+			
+			return room;
+		}
+		
 
 }

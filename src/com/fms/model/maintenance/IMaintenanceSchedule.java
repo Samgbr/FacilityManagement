@@ -8,8 +8,6 @@ public interface IMaintenanceSchedule {
 	public void setDateFrom(String dateFrom);
 	public String getDateTo();
 	public void setDateTo(String dateTo);
-	public String getMorderID();
-	public void setMorderID(String morderID);
 	public Maintenance getMaintenance();
 	public void setMaintenance(Maintenance maintenance);
 }

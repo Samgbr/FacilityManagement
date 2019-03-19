@@ -6,10 +6,12 @@ import com.fms.dal.maintenance.MaintenanceDAO;
 import com.fms.dal.maintenance.MaintenanceOrderDAO;
 import com.fms.dal.maintenance.MaintenanceRequestDAO;
 import com.fms.dal.maintenance.MaintenanceScheduleDAO;
+import com.fms.model.facility.Room;
 import com.fms.model.maintenance.Maintenance;
 import com.fms.model.maintenance.MaintenanceOrder;
 import com.fms.model.maintenance.MaintenanceRequest;
 import com.fms.model.maintenance.MaintenanceSchedule;
+import com.fms.model.user.User;
 
 public class MaintenanceService {
 
@@ -19,14 +21,15 @@ public class MaintenanceService {
 	private MaintenanceScheduleDAO maintenanceScheduleDAO = new MaintenanceScheduleDAO();
 	
 	//Insert new Maintenance request
-	public void addMaintenanceRequest(MaintenanceRequest request) {
+	public MaintenanceRequest addMaintenanceRequest(MaintenanceRequest request, User user, Room room) {
 		
 		try {
-			maintenanceRequestDAO.insertMaintenanceRequest(request.getRequestID(), request.getDescription(), request.getRequestDate(), request.getUserID(), request.getRoomID());
+			return maintenanceRequestDAO.insertMaintenanceRequest(request.getRequestID(), request.getDescription(), request.getRequestDate(), user.getUserID(), room.getRoomID());
 	    } catch (Exception se) {
 	      System.err.println("FacilityMaintenanceService: Threw a Exception adding Maintenance Request.");
 	      System.err.println(se.getMessage());
 	    }
+		return null;
 	}
 	
 	//Update Request order id
@@ -52,10 +55,10 @@ public class MaintenanceService {
 	}
 	
 	//Insert new Maintenance schedule
-	public void addMaintenanceSchedule(MaintenanceSchedule schedule) {
+	public void addMaintenanceSchedule(MaintenanceSchedule schedule, MaintenanceOrder order) {
 				
 				try {
-					maintenanceScheduleDAO.insertMaintenanceSchedule(schedule.getScheduleID(), schedule.getDateFrom(), schedule.getDateTo(), schedule.getMorderID());
+					maintenanceScheduleDAO.insertMaintenanceSchedule(schedule.getScheduleID(), schedule.getDateFrom(), schedule.getDateTo(), order.getMorderID());
 			    } catch (Exception se) {
 			      System.err.println("FacilityMaintenanceService: Threw a Exception adding Maintenance Schedule.");
 			      System.err.println(se.getMessage());
@@ -63,10 +66,10 @@ public class MaintenanceService {
 	}
 	
 	//Insert new Maintenance
-	public void addMaintenance(Maintenance maintenance) {
+	public void addMaintenance(Maintenance maintenance, MaintenanceOrder order, MaintenanceSchedule schedule) {
 					
 					try {
-						maintenanceDAO.insertMaintenance(maintenance.getMaintenanceID(), maintenance.getType(), maintenance.getMaintenanceStart(), maintenance.getMaintenanceEnd(), maintenance.getCost(), maintenance.getSStatus(), maintenance.getScheduleID(), maintenance.getMOrderID());
+						maintenanceDAO.insertMaintenance(maintenance.getMaintenanceID(), maintenance.getType(), maintenance.getMaintenanceStart(), maintenance.getMaintenanceEnd(), maintenance.getCost(), maintenance.getSStatus(), schedule.getScheduleID(), order.getMorderID());
 				    } catch (Exception se) {
 				      System.err.println("FacilityMaintenanceService: Threw a Exception adding Maintenance Schedule.");
 				      System.err.println(se.getMessage());

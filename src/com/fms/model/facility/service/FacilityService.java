@@ -2,7 +2,9 @@ package com.fms.model.facility.service;
 import java.util.Set;
 
 import com.fms.dal.facility.BuildingDAO;
+import com.fms.dal.facility.RoomDAO;
 import com.fms.model.facility.Building;
+import com.fms.model.facility.Room;
 
 public class FacilityService {
 	
@@ -17,6 +19,7 @@ public class FacilityService {
 	}
 
 	private BuildingDAO buildingDAO = new BuildingDAO();
+	private RoomDAO roomDAO = new RoomDAO();
 	
 	//Insert new Building
 	public Building addBuilding(Building building) {
@@ -56,6 +59,19 @@ public class FacilityService {
 	    }
 		return null;
 	}
+	
+	//Get Room By IDy
+		public Room getRoomByID(String rid) {
+			
+			try {
+				Room room = roomDAO.getRoomByID(rid);
+		    	return room;
+		    } catch (Exception se) {
+		      System.err.println("FacilityService: Threw a Exception retrieving Room.");
+		      System.err.println(se.getMessage());
+		    }
+			return null;
+		}
 	
 	//Get Facility Available Capacity
 	public int getAvailableCapacity(String facilityId) {

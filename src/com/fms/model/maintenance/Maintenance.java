@@ -8,8 +8,6 @@ public class Maintenance implements IMaintenance{
 	private String maintenanceEnd;
 	private double cost;
 	private String SStatus;
-	private String scheduleID;
-	private String MOrderID;
 	
 	public String getMaintenanceID() {
 		return maintenanceID;
@@ -47,19 +45,6 @@ public class Maintenance implements IMaintenance{
 	public void setSStatus(String sStatus) {
 		SStatus = sStatus;
 	}
-	public String getScheduleID() {
-		return scheduleID;
-	}
-	public void setScheduleID(String scheduleID) {
-		this.scheduleID = scheduleID;
-	}
-	public String getMOrderID() {
-		return MOrderID;
-	}
-	public void setMOrderID(String mOrderID) {
-		MOrderID = mOrderID;
-	}
-	
 	
 	
 }

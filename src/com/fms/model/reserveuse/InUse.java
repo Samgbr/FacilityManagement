@@ -6,10 +6,7 @@ public class InUse implements IInUse {
 
 	private String usageID;
 	private String rStatus;
-	private	String reserveID;
-	private String roomID;
 	private Room room;
-	private String userID;
 	
 	
 	public Room getRoom() {
@@ -31,24 +28,6 @@ public class InUse implements IInUse {
 	}
 	public void setrStatus(String rStatus) {
 		this.rStatus = rStatus;
-	}
-	public String getReserveID() {
-		return reserveID;
-	}
-	public void setReserveID(String reserveID) {
-		this.reserveID = reserveID;
-	}
-	public String getRoomID() {
-		return roomID;
-	}
-	public void setRoomID(String roomID) {
-		this.roomID = roomID;
-	}
-	public String getUserID() {
-		return userID;
-	}
-	public void setUserID(String userID) {
-		this.userID = userID;
 	}
 	public int getUsedInInterval() {
 		return usedInInterval;

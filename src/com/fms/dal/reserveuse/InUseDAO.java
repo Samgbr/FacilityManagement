@@ -19,9 +19,6 @@ public class InUseDAO {
 		
 		inUse.setUsageID(usageID);
 		inUse.setrStatus(rstatus);
-		inUse.setReserveID(reserveID);
-		inUse.setRoomID(roomID);
-		inUse.setUserID(userID);
 		inUse.setUsedInInterval(usedInInterval);
 		
 		Connection connection = DBConnect.getDatabaseConnection();
@@ -49,9 +46,6 @@ public class InUseDAO {
 			public InUse getFacilityUsage(String uid) {
 				String usageID=uid;
 				String rStatus="";
-				String reserveID = "";
-				String roomID = "";
-				String userID = "";
 				int usedInInterval = 0;
 				
 				Connection connection = DBConnect.getDatabaseConnection();
@@ -64,9 +58,6 @@ public class InUseDAO {
 					ResultSet resultSet = selectStatement.executeQuery(selectQuery);
 					resultSet.next();
 					rStatus = resultSet.getString("Rstatus");
-					reserveID = resultSet.getString("ReserveID");
-					roomID = resultSet.getString("RoomID");
-					userID = resultSet.getString("UserID");
 					usedInInterval = resultSet.getInt("UsedInInterval");
 					
 				}catch(SQLException se) {
@@ -81,10 +72,7 @@ public class InUseDAO {
 				
 				InUse inUse = new InUse();
 				inUse.setUsageID(usageID);
-				inUse.setReserveID(reserveID);
-				inUse.setRoomID(roomID);
 				inUse.setrStatus(rStatus);
-				inUse.setUserID(userID);
 				inUse.setUsedInInterval(usedInInterval);
 				
 				return inUse;	
@@ -119,9 +107,6 @@ public class InUseDAO {
 			public InUse getActualFacilityUsage(String rid) {
 				String usageID="";
 				String rStatus="";
-				String reserveID = "";
-				String roomID = rid;
-				String userID = "";
 				int usedInInterval = 0;
 				
 				Connection connection = DBConnect.getDatabaseConnection();
@@ -134,9 +119,7 @@ public class InUseDAO {
 					ResultSet resultSet = selectStatement.executeQuery(selectQuery);
 					resultSet.next();
 					rStatus = resultSet.getString("Rstatus");
-					reserveID = resultSet.getString("ReserveID");
 					usageID = resultSet.getString("UsageID");
-					userID = resultSet.getString("UserID");
 					usedInInterval = resultSet.getInt("UsedInInterval");
 				}catch(SQLException se) {
 					se.printStackTrace();
@@ -150,10 +133,7 @@ public class InUseDAO {
 				
 				InUse inUse = new InUse();
 				inUse.setUsageID(usageID);
-				inUse.setReserveID(reserveID);
-				inUse.setRoomID(roomID);
 				inUse.setrStatus(rStatus);
-				inUse.setUserID(userID);
 				inUse.setUsedInInterval(usedInInterval);
 				
 				return inUse;

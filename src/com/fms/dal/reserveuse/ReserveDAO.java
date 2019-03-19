@@ -19,7 +19,6 @@ public class ReserveDAO {
 		reserve.setDateFrom(dateFrom);
 		reserve.setDateTo(dateTo);
 		reserve.setrStatus(rStatus);
-		reserve.setRoomID(roomID);
 		
 		Connection connection = DBConnect.getDatabaseConnection();
 		
@@ -47,8 +46,6 @@ public class ReserveDAO {
 		String reserveID=rid;
 		String dateFrom="";
 		String dateTo = "";
-		String roomID = "";
-		String userID = "";
 		String rStatus = "";
 		
 		Connection connection = DBConnect.getDatabaseConnection();
@@ -62,8 +59,6 @@ public class ReserveDAO {
 			resultSet.next();
 			rStatus = resultSet.getString("Rstatus");
 			reserveID = resultSet.getString("ReserveID");
-			roomID = resultSet.getString("RoomID");
-			userID = resultSet.getString("UserID");
 			rStatus = resultSet.getString("DateTo");
 			dateFrom = resultSet.getString("DateFrom");
 			
@@ -81,9 +76,7 @@ public class ReserveDAO {
 		reserve.setReserveID(reserveID);
 		reserve.setDateFrom(dateFrom);
 		reserve.setDateTo(dateTo);
-		reserve.setRoomID(roomID);
 		reserve.setrStatus(rStatus);
-		reserve.setUserID(userID);
 		
 		return reserve;	
 	}

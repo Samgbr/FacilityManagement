@@ -7,9 +7,7 @@ public class Reserve implements IReserve {
 	private String reserveID;
 	private String dateFrom;
 	private String dateTo;
-	private String userID;
 	private String rStatus;
-	private String roomID;
 	private Room room;
 	private InUse inUse;
 	
@@ -43,24 +41,11 @@ public class Reserve implements IReserve {
 	public void setDateTo(String dateTo) {
 		this.dateTo = dateTo;
 	}
-	public String getUserID() {
-		return userID;
-	}
-	public void setUserID(String userID) {
-		this.userID = userID;
-	}
 	public String getrStatus() {
 		return rStatus;
 	}
 	public void setrStatus(String rStatus) {
 		this.rStatus = rStatus;
 	}
-	public String getRoomID() {
-		return roomID;
-	}
-	public void setRoomID(String roomID) {
-		this.roomID = roomID;
-	}
-	
-	
+		
 }

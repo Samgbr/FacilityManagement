@@ -6,8 +6,6 @@ public class MaintenanceRequest implements IMaintenanceRequest{
 
 	private String requestID;
 	private String description;
-	private String userID;
-	private String roomID;
 	private Room room;
 	private MaintenanceOrder maintenanceOrder;
 	
@@ -49,18 +47,6 @@ public class MaintenanceRequest implements IMaintenanceRequest{
 	}
 	public void setDescription(String description) {
 		this.description = description;
-	}
-	public String getUserID() {
-		return userID;
-	}
-	public void setUserID(String userID) {
-		this.userID = userID;
-	}
-	public String getRoomID() {
-		return roomID;
-	}
-	public void setRoomID(String roomID) {
-		this.roomID = roomID;
 	}
 	
 }
