@@ -10,8 +10,6 @@ public interface IReserve {
 	public void setDateFrom(String dateFrom);
 	public String getDateTo();
 	public void setDateTo(String dateTo);
-	public String getUserID();
-	public void setUserID(String userID);
 	public String getrStatus();
 	public void setrStatus(String rStatus);
 	public Room getRoom();

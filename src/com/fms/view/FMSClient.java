@@ -82,7 +82,7 @@ public class FMSClient {
 		randInt = randomGen.nextInt(10000);
 		String maintenanceID = "MN" + randInt;
 		
-		addMaintenance(maintenanceID, morderID, schedule, context);
+		addMaintenance(maintenanceID, order, schedule, context);
 		
 		OtherMaintMethods(roomID2);
 		
@@ -112,23 +112,20 @@ public class FMSClient {
 		reserve.setReserveID(reserveID);
 		reserve.setDateFrom("2019/03/01");
 		reserve.setDateTo("2019/03/15");
-		reserve.setUserID(user.getUserID());
-		reserve.setRoomID(roomID2);
 		reserve.setrStatus("Reserved");
 		
 		ReserveuseService ruService = new ReserveuseService();
+		FacilityService fService = new FacilityService();
+		Room room = fService.getRoomByID(roomID2);
 		
-		ruService.addReservation(reserve);
+		ruService.addReservation(reserve, user, room);
 		
 		InUse inUse = reserve.getInUse();
 		inUse.setUsageID(usageID);
-		inUse.setReserveID(reserveID);
-		inUse.setRoomID(roomID2);
-		inUse.setUserID(user.getUserID());
 		inUse.setrStatus("Occupied");
 		inUse.setUsedInInterval(0);
 		
-		ruService.assignFacilityToUse(inUse);
+		ruService.assignFacilityToUse(inUse, reserve, user, room);
 		System.out.println("Facility Used In Interval: 0-false 1-true ");
 		System.out.println(ruService.getFacilityIntervalUsage(roomID2));
 		System.out.println("Facility Actual Usage: UsageIS's ");
@@ -155,7 +152,6 @@ public class FMSClient {
 		inspection.setDateFrom("2019/03/01");
 		inspection.setDateTo("2019/03/15");
 		inspection.setInspectedBy("Namipp Corp.");
-		inspection.setFacilityID(iBuilding.getFacilityID());
 		inspection.setBuilding(iBuilding);
 		inspection.setInspectionType("Structure");
 		
@@ -180,7 +176,7 @@ public class FMSClient {
 		System.out.println("Down time for Facility: " + mService.MaintenanceDownTimeFacility(roomID2) + " " + "days.");	
 	}
 
-	private static void addMaintenance(String maintenanceID, String morderID, MaintenanceSchedule schedule, ApplicationContext context) {
+	private static void addMaintenance(String maintenanceID, MaintenanceOrder order, MaintenanceSchedule schedule, ApplicationContext context) {
 		
 		MaintenanceService maintenanceService = new MaintenanceService();
 		
@@ -194,10 +190,8 @@ public class FMSClient {
 		maintenance.setMaintenanceEnd("2019/03/16");
 		maintenance.setCost(10004.75);
 		maintenance.setSStatus("InProcess");
-		maintenance.setScheduleID(schedule.getScheduleID());
-		maintenance.setMOrderID(morderID);
 		
-		maintenanceService.addMaintenance(maintenance);
+		maintenanceService.addMaintenance(maintenance, order, schedule);
 		
 	}
 
@@ -211,9 +205,8 @@ public class FMSClient {
 		schedule.setScheduleID(scheduleID);
 		schedule.setDateFrom("2019/03/01");
 		schedule.setDateTo("2019/03/15");
-		schedule.setMorderID(order.getMorderID());
 		
-		maintenanceService.addMaintenanceSchedule(schedule);
+		maintenanceService.addMaintenanceSchedule(schedule, order);
 		
 		return schedule;
 		
@@ -244,16 +237,17 @@ public class FMSClient {
 		
 		//Add Maintenance request
 		MaintenanceRequest request = user.getMaintenanceRequest();
+		
+		FacilityService fService = new FacilityService();
+		Room room = fService.getRoomByID(roomID2);
 	    
 		request.setRequestID(requestID);
 		request.setDescription("Chair Broken");
 		request.setRequestDate("2019/02/18");
-		request.setUserID(user.getUserID());
-		request.setRoomID(roomID2);
 		
 		MaintenanceService mService = new MaintenanceService();
-		mService.addMaintenanceRequest(request);
-		System.out.println("RoomID: " + request.getRoomID());
+		mService.addMaintenanceRequest(request, user, room);
+		System.out.println("RoomID: " + roomID2);
 		System.out.println("Adding Maintenance order for the requests");
 		
 		return request;
@@ -309,14 +303,12 @@ public class FMSClient {
 		phone.setPhoneID(phoneID1);
 		phone.setDescription("VP Office phone number");
 		phone.setPhoneNumber("304");
-		phone.setFacilityID(facilityID);
 		phones.add(phone);
 		
 		phone = (Phone) context.getBean("phone");
 		phone.setPhoneID(phoneID2);
 		phone.setDescription("Reception phone number");
 		phone.setPhoneNumber("504");
-		phone.setFacilityID(facilityID);
 		phones.add(phone);
 		
 		building.setPhones(phones);
@@ -332,13 +324,11 @@ public class FMSClient {
 		//List of rooms inside the building		
 		room.setRoomID(roomID1);
 		room.setType("Conference");
-		room.setFacilityID(facilityID);
 		rooms.add(room);
 		
 		room = (Room) context.getBean("room");
 		room.setRoomID(roomID2);
 		room.setType("Training Room");
-		room.setFacilityID(facilityID);
 		rooms.add(room);
 		
 		building.setRooms(rooms);

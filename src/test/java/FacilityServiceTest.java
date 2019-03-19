@@ -15,7 +15,7 @@ import com.fms.model.facility.Phone;
 import com.fms.model.facility.service.FacilityService;
 
 public class FacilityServiceTest {	
-
+	
 	private static Building building;
 	private static Building newBuilding;
 	private static FacilityService fService;
@@ -53,14 +53,12 @@ public class FacilityServiceTest {
 		phone.setPhoneID(phoneID1);
 		phone.setDescription("VP Office phone number");
 		phone.setPhoneNumber("304");
-		phone.setFacilityID(building.getFacilityID());
 		phones.add(phone);
 		
 		phone = new Phone();
 		phone.setPhoneID(phoneID2);
 		phone.setDescription("Reception phone number");
 		phone.setPhoneNumber("504");
-		phone.setFacilityID(building.getFacilityID());
 		phones.add(phone);
 		
 		building.setPhones(phones);

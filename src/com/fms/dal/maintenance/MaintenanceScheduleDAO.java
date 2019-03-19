@@ -16,7 +16,6 @@ public class MaintenanceScheduleDAO {
 			maintenanceSchedule.setScheduleID(scheduleID);
 			maintenanceSchedule.setDateFrom(dateFrom);
 			maintenanceSchedule.setDateTo(dateTo);
-			maintenanceSchedule.setMorderID(morderID);
 
 			Connection connection = DBConnect.getDatabaseConnection();
 			try {
@@ -44,7 +43,6 @@ public class MaintenanceScheduleDAO {
 			String scheduleID=msid;
 			String dateFrom ="";
 			String dateTo = "";
-			String mOrderID="";
 			
 			Connection connection = DBConnect.getDatabaseConnection();
 			
@@ -57,7 +55,6 @@ public class MaintenanceScheduleDAO {
 				resultSet.next();
 				dateFrom= resultSet.getString("DateFrom");
 				dateTo = resultSet.getString("DateTo");
-				mOrderID = resultSet.getString("MOrderID");
 				
 			}catch(SQLException se) {
 				se.printStackTrace();
@@ -73,7 +70,6 @@ public class MaintenanceScheduleDAO {
 			maintenanceSchedule.setScheduleID(scheduleID);
 			maintenanceSchedule.setDateFrom(dateFrom);
 			maintenanceSchedule.setDateTo(dateTo);
-			maintenanceSchedule.setMorderID(mOrderID);
 			
 			return maintenanceSchedule;	
 		}

@@ -14,8 +14,4 @@ public interface IMaintenance {
 	public void setCost(double cost);
 	public String getSStatus();
 	public void setSStatus(String sStatus);
-	public String getMOrderID();
-	public void setMOrderID(String mOrderID);
-	public String getScheduleID();
-	public void setScheduleID(String scheduleID);
 }

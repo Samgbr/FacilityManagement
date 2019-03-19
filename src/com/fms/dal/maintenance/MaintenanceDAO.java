@@ -20,8 +20,6 @@ public class MaintenanceDAO {
 			maintenance.setMaintenanceEnd(maintenanceEnd);
 			maintenance.setCost(cost);
 			maintenance.setSStatus(sStatus);
-			maintenance.setScheduleID(scheduleID);
-			maintenance.setMOrderID(mOrderID);
 			
 			Connection connection = DBConnect.getDatabaseConnection();
 			try {
@@ -112,8 +110,6 @@ public class MaintenanceDAO {
 			String maintenanceEnd = "";
 			double cost = 0.0;
 			String sStatus = "";
-			String scheduleID="";
-			String mOrderID="";
 			
 			Connection connection = DBConnect.getDatabaseConnection();
 			
@@ -129,8 +125,6 @@ public class MaintenanceDAO {
 				maintenanceEnd = resultSet.getString("MaintenanceEnd");
 				cost = resultSet.getDouble("Cost");
 				sStatus = resultSet.getString("SStatus");
-				scheduleID = resultSet.getString("ScheduleID");
-				mOrderID = resultSet.getString("MOrderID");
 				
 			}catch(SQLException se) {
 				se.printStackTrace();
@@ -149,8 +143,6 @@ public class MaintenanceDAO {
 			maintenance.setMaintenanceEnd(maintenanceEnd);
 			maintenance.setMaintenanceStart(maintenanceStart);
 			maintenance.setSStatus(sStatus);
-			maintenance.setScheduleID(scheduleID);
-			maintenance.setMOrderID(mOrderID);
 			
 			return maintenance;	
 		}

@@ -8,10 +8,6 @@ public interface IMaintenanceRequest {
 	public void setRequestID(String requestID);
 	public String getDescription();
 	public void setDescription(String description);
-	public String getUserID();
-	public void setUserID(String userID);
-	public String getRoomID();
-	public void setRoomID(String roomID);
 	public Room getRoom();
 	public void setRoom(Room room);
 	public MaintenanceOrder getMaintenanceOrder();

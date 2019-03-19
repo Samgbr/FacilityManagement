@@ -10,7 +10,6 @@ public class Inspection implements IInspection{
 	private String dateTo;
 	private String inspectionType;
 	private String inspectedBy;
-	private String facilityID;
 	private Building building;
 	
 	public String getInspectedBy() {
@@ -27,14 +26,6 @@ public class Inspection implements IInspection{
 
 	public void setBuilding(Building building) {
 		this.building = building;
-	}
-
-	public String getFacilityID() {
-		return facilityID;
-	}
-
-	public void setFacilityID(String facilityID) {
-		this.facilityID = facilityID;
 	}
 
 	public Inspection() {}

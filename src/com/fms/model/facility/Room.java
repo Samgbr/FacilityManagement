@@ -4,7 +4,6 @@ public class Room implements IRoom{
 
 	private String roomID;
 	private String type;
-	private String facilityID;
 	
 	public Room() {}
 
@@ -20,12 +19,5 @@ public class Room implements IRoom{
 	public void setType(String type) {
 		this.type = type;
 	}
-	public String getFacilityID() {
-		return facilityID;
-	}
-	public void setFacilityID(String facilityID) {
-		this.facilityID = facilityID;
-	}
-	
 	
 }

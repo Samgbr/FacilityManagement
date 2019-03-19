@@ -6,7 +6,5 @@ public interface IRoom {
 	public void setRoomID(String roomID);
 	public String getType();
 	public void setType(String type);
-	public String getFacilityID();
-	public void setFacilityID(String facilityID);
 	
 }

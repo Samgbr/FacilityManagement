@@ -41,8 +41,8 @@ public class BuildingDAO {
 				insertStatement.executeUpdate(insertQuery);	
 				
 				
-				phoneDAO.insertPhoneInfos(building.getPhones());
-				roomDAO.insertRoomInfos(building.getRooms());
+				phoneDAO.insertPhoneInfos(building.getPhones(),facilityID);
+				roomDAO.insertRoomInfos(building.getRooms(), facilityID);
 				
 		}catch(SQLException se) {
 			se.printStackTrace();

@@ -13,7 +13,7 @@ import com.fms.model.facility.Phone;
 
 public class PhoneDAO {
 
-	public Set<Phone> insertPhoneInfos(Set<Phone> phones) {
+	public Set<Phone> insertPhoneInfos(Set<Phone> phones, String facilityID) {
 		
 		Connection connection = DBConnect.getDatabaseConnection();
 		try {
@@ -30,7 +30,7 @@ public class PhoneDAO {
 				Phone currentPhone = phoneIterator.next(); 
 				
 				String insertQuery = "INSERT INTO phone(PhoneID, PhoneNumber, Description,FacilityID) "
-						+ "VALUES('"+currentPhone.getPhoneID()+"','"+currentPhone.getPhoneNumber()+"','"+currentPhone.getDescription()+"','"+currentPhone.getFacilityID()+"')";
+						+ "VALUES('"+currentPhone.getPhoneID()+"','"+currentPhone.getPhoneNumber()+"','"+currentPhone.getDescription()+"','"+facilityID+"')";
 				insertStatement.executeUpdate(insertQuery);
 				
 			}		
@@ -63,13 +63,11 @@ public class PhoneDAO {
 				String phoneID= resultSet.getString("PhoneID");
 				String phoneNumber = resultSet.getString("PhoneNumber");
 				String description = resultSet.getString("Description");
-				String facilityID = resultSet.getString("FacilityID");
 				
 				Phone phone = new Phone();
 				phone.setPhoneID(phoneID);
 				phone.setPhoneNumber(phoneNumber);
 				phone.setDescription(description);
-				phone.setFacilityID(facilityID);
 				phones.add(phone);
 			}
 			

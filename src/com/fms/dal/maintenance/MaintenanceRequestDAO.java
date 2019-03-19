@@ -19,9 +19,7 @@ public class MaintenanceRequestDAO {
 		MaintenanceRequest maintenanceRequest = new MaintenanceRequest();
 		maintenanceRequest.setRequestID(requestID);
 		maintenanceRequest.setDescription(description);
-		maintenanceRequest.setUserID(userID);
-		maintenanceRequest.setRoomID(roomID);
-		
+				
 		Connection connection = DBConnect.getDatabaseConnection();
 		try {
 			Statement insertStatement = connection.createStatement();
@@ -72,8 +70,6 @@ public class MaintenanceRequestDAO {
 			String requestID=mrid;
 			String description="";
 			String requestDate = "";
-			String userID = "";
-			String roomID = "";
 			String mOrderID="";
 			
 			Connection connection = DBConnect.getDatabaseConnection();
@@ -86,8 +82,6 @@ public class MaintenanceRequestDAO {
 				ResultSet resultSet = selectStatement.executeQuery(selectQuery);
 				resultSet.next();
 				requestDate= resultSet.getString("RequestDate");
-				userID = resultSet.getString("UserID");
-				roomID = resultSet.getString("RoomID");
 				mOrderID = resultSet.getString("MOrderID");
 				
 			}catch(SQLException se) {
@@ -104,8 +98,6 @@ public class MaintenanceRequestDAO {
 			maintenanceRequest.setRequestID(requestID);
 			maintenanceRequest.setDescription(description);
 			maintenanceRequest.setRequestDate(requestDate);
-			maintenanceRequest.setUserID(userID);
-			maintenanceRequest.setRoomID(roomID);
 			maintenanceRequest.setMorderID(mOrderID);
 			
 			return maintenanceRequest;	
