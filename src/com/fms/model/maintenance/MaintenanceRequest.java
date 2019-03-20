@@ -6,6 +6,7 @@ public class MaintenanceRequest implements IMaintenanceRequest{
 
 	private String requestID;
 	private String description;
+	private String requestDate;
 	private Room room;
 	private MaintenanceOrder maintenanceOrder;
 	
@@ -20,15 +21,6 @@ public class MaintenanceRequest implements IMaintenanceRequest{
 	}
 	public void setRoom(Room room) {
 		this.room = room;
-	}
-	private String requestDate;
-	private String morderID;
-		
-	public String getMorderID() {
-		return morderID;
-	}
-	public void setMorderID(String morderID) {
-		this.morderID = morderID;
 	}
 	public String getRequestDate() {
 		return requestDate;

@@ -1,4 +1,5 @@
 package com.fms.model.maintenance.service;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
@@ -81,9 +82,9 @@ public class MaintenanceService {
 		double totalCost = 0.0;
 		try {
 			
-			Set<MaintenanceRequest> requests = maintenanceRequestDAO.getMRequestsByRoomID(roomID);
-			for (MaintenanceRequest r: requests) {
-				totalCost += maintenanceDAO.getMaintenanceCost(r.getMorderID());
+			ArrayList<String> orderNumerLists = maintenanceRequestDAO.getMRequestsByRoomID(roomID);
+			for (String orderID: orderNumerLists) {
+				totalCost += maintenanceDAO.getMaintenanceCost(orderID);
 			}
 			
 		} catch (Exception se) {
@@ -113,9 +114,9 @@ public class MaintenanceService {
 		long days = 0;
 		try {
 			
-			Set<MaintenanceRequest> requests = maintenanceRequestDAO.getMRequestsByRoomID(roomID);
-			for (MaintenanceRequest r: requests) {
-				days += maintenanceDAO.getMaintenanceDownTime(r.getMorderID());
+			ArrayList<String> orderNumerLists = maintenanceRequestDAO.getMRequestsByRoomID(roomID);
+			for (String orderID: orderNumerLists) {
+				days += maintenanceDAO.getMaintenanceDownTime(orderID);
 			}
 			
 		} catch (Exception se) {
