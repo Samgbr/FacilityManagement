@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -70,7 +71,6 @@ public class MaintenanceRequestDAO {
 			String requestID=mrid;
 			String description="";
 			String requestDate = "";
-			String mOrderID="";
 			
 			Connection connection = DBConnect.getDatabaseConnection();
 			
@@ -82,7 +82,6 @@ public class MaintenanceRequestDAO {
 				ResultSet resultSet = selectStatement.executeQuery(selectQuery);
 				resultSet.next();
 				requestDate= resultSet.getString("RequestDate");
-				mOrderID = resultSet.getString("MOrderID");
 				
 			}catch(SQLException se) {
 				se.printStackTrace();
@@ -98,7 +97,6 @@ public class MaintenanceRequestDAO {
 			maintenanceRequest.setRequestID(requestID);
 			maintenanceRequest.setDescription(description);
 			maintenanceRequest.setRequestDate(requestDate);
-			maintenanceRequest.setMorderID(mOrderID);
 			
 			return maintenanceRequest;	
 		}
@@ -207,10 +205,11 @@ public class MaintenanceRequestDAO {
 
 		
 		//Get Maintenance Requests by Facility
-		public Set<MaintenanceRequest> getMRequestsByRoomID(String roomID) {
+		public ArrayList<String> getMRequestsByRoomID(String roomID) {
 				
 				Connection connection = DBConnect.getDatabaseConnection();
 				Set<MaintenanceRequest> requests = new HashSet<>();
+				ArrayList<String> orderLists = new ArrayList<>();
 				
 				try {
 					Statement selectStatement = connection.createStatement();
@@ -221,6 +220,7 @@ public class MaintenanceRequestDAO {
 					while(resultSet.next()) {
 						String requestID = resultSet.getString("RequestID");
 						MaintenanceRequest request = getMaintenanceRequest(requestID);
+						orderLists.add(resultSet.getString("MOrderID"));
 						if(request != null) {
 							requests.add(request);
 						}
@@ -236,6 +236,6 @@ public class MaintenanceRequestDAO {
 					}
 				}
 				
-				return requests;
+				return orderLists;
 		}
 }
