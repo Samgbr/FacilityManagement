@@ -8,7 +8,10 @@ This repository is used for building a Facility Management Application for the c
 + Mysql database implemented based on the DB Schema and connect using JDBC
 + Data Access Layer implemented for all Modules (Facility, Inspection, Maintenance and Reserve-Use)
 + Domain Layer implemented for all Modules and a service class for each module created to communicated with the data access layer and the Main Class.
-+ Main class created to test the application functionality
++ Interfaces implemented for model classes in each module for spring wiring
++ On the Service classes added setter injection for dependency injection
++ Added application context xml file for spring beans configuration
++ Main class created and spring wiring tested as well as the whole application functionality
 
 UML and DB Schema: https://drive.google.com/open?id=1yzk68ZjCq6tuMD_3_0PT_RuaduJ8mige
 
