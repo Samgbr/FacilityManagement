@@ -8,10 +8,14 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.fms.model.facility.Building;
+import com.fms.model.facility.IFacility;
 import com.fms.model.facility.Phone;
 import com.fms.model.facility.Room;
+import com.fms.model.facility.Warehouse;
 import com.fms.model.facility.service.FacilityService;
-import com.fms.model.inspection.Inspection;
+import com.fms.model.inspection.AirConditioning;
+import com.fms.model.inspection.HeatingSystem;
+import com.fms.model.inspection.MechanicalAndElectrical;
 import com.fms.model.inspection.service.InspectionService;
 import com.fms.model.maintenance.Maintenance;
 import com.fms.model.maintenance.MaintenanceOrder;
@@ -52,7 +56,7 @@ public class FMSClient {
 		String roomID2 = "RM" + randomInt;
 	    
 		Building building = addBuilding(facilityID, phoneID1, phoneID2, roomID1, roomID2, context);
-		
+		Warehouse warehouse = addWarehouse(facilityID, phoneID1, phoneID2, roomID1, roomID2, context);
 		
 		Random randomGen = new Random();
 	    int randInt = randomGen.nextInt(10000);
@@ -90,7 +94,7 @@ public class FMSClient {
 		randInt = randomGen.nextInt(10000);		
 		String inspectionID = "IN" + randInt;
 		
-		addInspections(inspectionID, building, context);
+		addInspections(inspectionID, building, warehouse, context);
 		
 		randomGen = new Random();
 		randInt = randomGen.nextInt(10000);		
@@ -103,6 +107,73 @@ public class FMSClient {
 		addReservationUse(reserveID, user, roomID2, usageID);
 		
 		System.out.println("Finished Successfully");
+		
+	}
+
+	private static Warehouse addWarehouse(String facilityID, String phoneID1, String phoneID2, String roomID1,
+			String roomID2, ApplicationContext context) {
+		
+		System.out.println("Warehouse FacilityID Created.");
+		
+		System.out.println("Warehouse FacilityID instance Creation started using Spring...");
+		
+		FacilityService facilityService = (FacilityService) context.getBean("facilityService");
+		
+		Warehouse warehouse = facilityService.getWarehouse();
+		
+		//Create a Facility
+		warehouse.setFacilityID(facilityID);
+		warehouse.setFacilityName("Branch");
+		warehouse.setAddress("1804 South Ave.");
+		warehouse.setCity("Wheathon");
+		warehouse.setState("IL");
+		warehouse.setZipcode("60603");
+		warehouse.setType("Office");
+		warehouse.setCapacity(20);
+		
+		//We have tried to use the building.getPhones(); but not works it needs new Object using the new operator
+		Set<Phone> phones = new HashSet<>();
+		
+		Phone phone = (Phone) context.getBean("phone");
+		//Create facility phone numbers
+		phone.setPhoneID(phoneID1);
+		phone.setDescription("VP Office phone number");
+		phone.setPhoneNumber("304");
+		phones.add(phone);
+		
+		phone = (Phone) context.getBean("phone");
+		phone.setPhoneID(phoneID2);
+		phone.setDescription("Reception phone number");
+		phone.setPhoneNumber("504");
+		phones.add(phone);
+		
+		warehouse.setPhones(phones);
+		
+		//System.out.println(building.getPhones().iterator().next().getFacilityID());
+		
+		System.out.println("Warehouse Facility Phones Created.");
+		
+		//We have tried to use the building.getRooms(); but not works it needs new Object using the new operator
+		Set<Room> rooms = new HashSet<>();
+		
+		Room room = (Room) context.getBean("room");
+		//List of rooms inside the building		
+		room.setRoomID(roomID1);
+		room.setType("Conference");
+		rooms.add(room);
+		
+		room = (Room) context.getBean("room");
+		room.setRoomID(roomID2);
+		room.setType("Training Room");
+		rooms.add(room);
+		
+		warehouse.setRooms(rooms);
+		
+		System.out.println("Warehouse Facility Rooms Created.");
+		
+		System.out.println("Facility data inserted successfully.");
+		
+		return warehouse;
 		
 	}
 
@@ -137,27 +208,60 @@ public class FMSClient {
 		
 	}
 
-	private static void addInspections(String inspectionID, Building building, ApplicationContext context) {
+	private static void addInspections(String inspectionID, Building building, Warehouse warehouse, ApplicationContext context) {
 		
-		InspectionService inspectionService = (InspectionService) context.getBean("inspectionService");
+		//InspectionService inspectionService = (InspectionService) context.getBean("inspectionService");
 		
-		Inspection inspection = inspectionService.getInspection();
+		//HeatingSystem inspection = inspectionService.getInspection();
 		
-		Set<Inspection> inspections = new HashSet<>();
+		Set<HeatingSystem> inspections = new HashSet<>();
 		
-		Building iBuilding = inspection.getBuilding();
-		iBuilding = building;
+		//Building iBuilding = inspection.getBuilding();
+		//iBuilding = building;
 		
+		//Bridge Pattern Demo for Inspection of heat System for a Building
+		HeatingSystem inspection = building.getHeatInspection();
 		inspection.setInspectionID(inspectionID);
+		
 		inspection.setDateFrom("2019/03/01");
 		inspection.setDateTo("2019/03/15");
 		inspection.setInspectedBy("Namipp Corp.");
-		inspection.setBuilding(iBuilding);
-		inspection.setInspectionType("Structure");
+		//inspection.setBuilding(iBuilding);
+		inspection.setInspectionType("Heat");
 		
 		inspections.add(inspection);
 		
-		inspectionService.addInspections(inspections);
+		AirConditioning acinspection = building.getAcInspection();
+		
+		acinspection.setDateFrom("2019/03/01");
+		acinspection.setDateTo("2019/03/15");
+		acinspection.setInspectedBy("Namipp Corp.");
+		//inspection.setBuilding(iBuilding);
+		acinspection.setInspectionType("AC and Ventilation");
+		
+		MechanicalAndElectrical maeinspection = building.getMechElecInspection();
+		
+		maeinspection.setDateFrom("2019/03/01");
+		maeinspection.setDateTo("2019/03/15");
+		maeinspection.setInspectedBy("Namipp Corp.");
+		//inspection.setBuilding(iBuilding);
+		maeinspection.setInspectionType("Electrical");
+		
+		InspectionService inspectionService = new InspectionService();
+		inspectionService.addInspections(inspections,building.getFacilityID());
+		
+		building.doInspections();
+		
+		//Warehouse Inspection Bridge Pattern
+		HeatingSystem hinspection = warehouse.getHeatInspection();
+		
+		hinspection.setDateFrom("2019/03/01");
+		hinspection.setDateTo("2019/03/15");
+		hinspection.setInspectedBy("Namipp Corp.");
+		hinspection.setInspectionType("Heat");
+		
+		warehouse.doInspections();
+		
 		/*
 		System.out.println("Inspections: ");
 		for(Inspection i: inspectionService.listInspections()) {

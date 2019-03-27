@@ -3,27 +3,27 @@ package com.fms.model.inspection.service;
 import java.util.Set;
 
 import com.fms.dal.inspection.InspectionDAO;
-import com.fms.model.inspection.Inspection;
+import com.fms.model.inspection.HeatingSystem;
 
 public class InspectionService {
+	/*
+	private HeatingSystem inspection;
 	
-	private Inspection inspection;
-	
-	public Inspection getInspection() {
+	public HeatingSystem getInspection() {
 		return inspection;
 	}
 
-	public void setInspection(Inspection inspection) {
+	public void setInspection(HeatingSystem inspection) {
 		this.inspection = inspection;
-	}
+	} */
 
 	private InspectionDAO inspectionDAO = new InspectionDAO();
 	
 	//Insert inspections
-	public void addInspections(Set<Inspection> inspections) {
+	public void addInspections(Set<HeatingSystem> inspections, String facilityID) {
 		try {
 			
-			inspectionDAO.insertInspectionInfo(inspections);
+			inspectionDAO.insertInspectionInfo(inspections,facilityID);
 			
 		}catch(Exception se){
 			 System.err.println("InspectionAddService: Threw a Exception Adding Facility Inspections.");
@@ -32,9 +32,9 @@ public class InspectionService {
 		
 	}
 	
-	public Set<Inspection> listInspections(){
+	public Set<HeatingSystem> listInspections(){
 		try {
-			Set<Inspection> inspections = inspectionDAO.getBuildingInspections();
+			Set<HeatingSystem> inspections = inspectionDAO.getBuildingInspections();
 			return inspections;
 			
 		}catch(Exception se){

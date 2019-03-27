@@ -6,7 +6,7 @@ import com.fms.model.inspection.AirConditioning;
 import com.fms.model.inspection.HeatingSystem;
 import com.fms.model.inspection.MechanicalAndElectrical;
 
-public class Building extends Facility implements IFacility {
+public class Warehouse extends Facility implements IFacility {
 
 	private String type;
 	private int capacity;
@@ -18,24 +18,24 @@ public class Building extends Facility implements IFacility {
 	private AirConditioning acInspection;
 	private MechanicalAndElectrical mechElecInspection;
 	
-	public MechanicalAndElectrical getMechElecInspection() {
-		return mechElecInspection;
+	public HeatingSystem getHeatInspection() {
+		return heatInspection;
 	}
-
-	public void setMechElecInspection(MechanicalAndElectrical mechElecInspection) {
-		this.mechElecInspection = mechElecInspection;
+	public void setHeatInspection(HeatingSystem heatInspection) {
+		this.heatInspection = heatInspection;
 	}
-
 	public AirConditioning getAcInspection() {
 		return acInspection;
 	}
-
 	public void setAcInspection(AirConditioning acInspection) {
 		this.acInspection = acInspection;
 	}
-
-	public Building() {}
-	
+	public MechanicalAndElectrical getMechElecInspection() {
+		return mechElecInspection;
+	}
+	public void setMechElecInspection(MechanicalAndElectrical mechElecInspection) {
+		this.mechElecInspection = mechElecInspection;
+	}
 	public Set<Phone> getPhones() {
 		return phones;
 	}
@@ -60,21 +60,12 @@ public class Building extends Facility implements IFacility {
 	public void setCapacity(int capacity) {
 		this.capacity = capacity;
 	}
-
-	public HeatingSystem getHeatInspection() {
-		return heatInspection;
-	}
-
-	public void setHeatInspection(HeatingSystem heatInspection) {
-		this.heatInspection = heatInspection;
-	}
-
+	
 	@Override
 	public void doInspections() {
-		System.out.println("\nBuilding Inspections: Bidge Pattern");
+		System.out.println("\nWarehouse Inspections: Bidge Pattern");
 		heatInspection.inspect();
-		acInspection.inspect();
-		mechElecInspection.inspect();
+		System.out.println();
 	}
 	
 }
