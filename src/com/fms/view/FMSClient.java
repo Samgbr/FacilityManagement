@@ -184,6 +184,9 @@ public class FMSClient {
 		reserve.setDateFrom("2019/03/01");
 		reserve.setDateTo("2019/03/15");
 		reserve.setrStatus("Reserved");
+		//Observer Pattern
+		reserve.setObserver(user);
+		reserve.setState("Reserved! ConfirmationID: " + reserveID);
 		
 		ReserveuseService ruService = new ReserveuseService();
 		FacilityService fService = new FacilityService();

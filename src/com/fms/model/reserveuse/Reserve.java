@@ -1,6 +1,7 @@
 package com.fms.model.reserveuse;
 
 import com.fms.model.facility.Room;
+import com.fms.model.user.UserI;
 
 public class Reserve implements IReserve {
 
@@ -11,6 +12,26 @@ public class Reserve implements IReserve {
 	private Room room;
 	private InUse inUse;
 	
+	//Observer Pattern
+	private UserI observer;
+	private String state;
+	
+	public UserI getObserver() {
+		return observer;
+	}
+	public void setObserver(UserI observer) {
+		this.observer = observer;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+		notifyObserver();
+	}
+	private void notifyObserver() {
+			observer.update();
+	}
 	public InUse getInUse() {
 		return inUse;
 	}
@@ -47,5 +68,5 @@ public class Reserve implements IReserve {
 	public void setrStatus(String rStatus) {
 		this.rStatus = rStatus;
 	}
-		
+	
 }

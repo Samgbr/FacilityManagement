@@ -61,6 +61,12 @@ public class User implements UserI {
 	public void setReserve(Reserve reserve) {
 		this.reserve = reserve;
 	}
+	//Observer Pattern update method
+	@Override
+	public void update() {
+		System.out.println("Observer Pattern on Room Reservation Notification: ");
+		System.out.println("Your room is " + reserve.getState()+"\n");
+	}
 	
 	
 }
