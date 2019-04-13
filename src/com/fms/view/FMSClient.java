@@ -1,5 +1,8 @@
 package com.fms.view;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -7,6 +10,7 @@ import java.util.Set;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.fms.model.customer.Customer;
 import com.fms.model.facility.Building;
 import com.fms.model.facility.IFacility;
 import com.fms.model.facility.Phone;
@@ -17,6 +21,9 @@ import com.fms.model.inspection.AirConditioning;
 import com.fms.model.inspection.HeatingSystem;
 import com.fms.model.inspection.MechanicalAndElectrical;
 import com.fms.model.inspection.service.InspectionService;
+import com.fms.model.lease.Lease;
+import com.fms.model.lease.LeaseVisitor;
+import com.fms.model.lease.LeaseVisitorImpl;
 import com.fms.model.maintenance.Maintenance;
 import com.fms.model.maintenance.MaintenanceOrder;
 import com.fms.model.maintenance.MaintenanceRequest;
@@ -94,7 +101,17 @@ public class FMSClient {
 		randInt = randomGen.nextInt(10000);		
 		String inspectionID = "IN" + randInt;
 		
+		randomGen = new Random();
+		randInt = randomGen.nextInt(10000);		
+		String leaseID1 = "LA" + randInt;
+		
+		randomGen = new Random();
+		randInt = randomGen.nextInt(10000);		
+		String leaseID2 = "LA" + randInt;
+		
 		addInspections(inspectionID, building, warehouse, context);
+		//Visitor pattern for Facility Lease
+		addNewLease(leaseID1, leaseID2, building, warehouse, context);
 		
 		randomGen = new Random();
 		randInt = randomGen.nextInt(10000);		
@@ -108,6 +125,75 @@ public class FMSClient {
 		
 		System.out.println("Finished Successfully");
 		
+	}
+
+	/**
+	 * This Method used to test the visitor pattern and calculates the total lease
+	 * @param leaseID
+	 * @param building
+	 * @param warehouse
+	 * @param context
+	 */
+	private static void addNewLease(String leaseID1, String leaseID2, Building building, Warehouse warehouse,
+			ApplicationContext context) {
+		//Create a lease
+		Lease bLease = building.getLease();
+		//Create a Customer
+		Customer customer = bLease.getCustomer();
+		customer.setFname("Alen");
+		customer.setmName("Dan");
+		customer.setlName("Paul");
+		customer.setPhoneNumber("773002121");
+		customer.setAddress("5150 North Ave.");
+		customer.setState("IL");
+		customer.setZipcode("60001");
+		
+		bLease.setLeaseNumber(leaseID1);
+		bLease.setCustomer(customer);
+		
+		String pattern = "yyyy-MM-dd";
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+
+		try {
+			Date dateFrom = simpleDateFormat.parse("2019-04-01");
+			bLease.setDateFrom(dateFrom);
+			Date dateTo = simpleDateFormat.parse("2019-04-20");
+			bLease.setDateTo(dateTo);
+			Date date = simpleDateFormat.parse("2019-03-31");
+			bLease.setDateOfLease(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		bLease.setRate(200);
+		
+		building.setLease(bLease);
+		
+		//Leasing Warehouse visitor pattern
+		Lease wLease = warehouse.getLease();
+		wLease.setLeaseNumber(leaseID2);
+		wLease.setCustomer(customer);
+		
+		pattern = "yyyy-MM-dd";
+		simpleDateFormat = new SimpleDateFormat(pattern);
+
+		try {
+			Date dateFrom = simpleDateFormat.parse("2019-04-05");
+			wLease.setDateFrom(dateFrom);
+			Date dateTo = simpleDateFormat.parse("2019-04-25");
+			wLease.setDateTo(dateTo);
+			Date date = simpleDateFormat.parse("2019-04-03");
+			wLease.setDateOfLease(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		wLease.setRate(2000);
+		
+		warehouse.setLease(wLease);
+		
+		//Visitor Pattern
+		LeaseVisitor visitor = new LeaseVisitorImpl();
+		building.accept(visitor);
+		warehouse.accept(visitor);
 	}
 
 	private static Warehouse addWarehouse(String facilityID, String phoneID1, String phoneID2, String roomID1,
@@ -185,7 +271,9 @@ public class FMSClient {
 		reserve.setDateTo("2019/03/15");
 		reserve.setrStatus("Reserved");
 		//Observer Pattern
+		//Attach user
 		reserve.setObserver(user);
+		//Notify Status
 		reserve.setState("Reserved! ConfirmationID: " + reserveID);
 		
 		ReserveuseService ruService = new ReserveuseService();
@@ -234,6 +322,7 @@ public class FMSClient {
 		
 		inspections.add(inspection);
 		
+		//Bridge Pattern Demo for Inspection of AC System for a Building
 		AirConditioning acinspection = building.getAcInspection();
 		
 		acinspection.setDateFrom("2019/03/01");
@@ -242,6 +331,7 @@ public class FMSClient {
 		//inspection.setBuilding(iBuilding);
 		acinspection.setInspectionType("AC and Ventilation");
 		
+		//Bridge Pattern Demo for Inspection of Electrical and Mechanical System for a Building
 		MechanicalAndElectrical maeinspection = building.getMechElecInspection();
 		
 		maeinspection.setDateFrom("2019/03/01");

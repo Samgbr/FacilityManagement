@@ -5,6 +5,8 @@ import java.util.Set;
 import com.fms.model.inspection.AirConditioning;
 import com.fms.model.inspection.HeatingSystem;
 import com.fms.model.inspection.MechanicalAndElectrical;
+import com.fms.model.lease.Lease;
+import com.fms.model.lease.LeaseVisitor;
 
 // Abstraction on Bridge Pattern
 public interface IFacility {
@@ -33,6 +35,14 @@ public interface IFacility {
 	public MechanicalAndElectrical getMechElecInspection();
 	
 	public void doInspections();
+	
+	//Lease Implementation setter
+	public void setLease(Lease lease);
+	public Lease getLease();
+	
+	//Visitor accept for facility lease
+	public void accept(LeaseVisitor visitor);
+	 
 	
 	
 }

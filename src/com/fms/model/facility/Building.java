@@ -5,6 +5,8 @@ import java.util.Set;
 import com.fms.model.inspection.AirConditioning;
 import com.fms.model.inspection.HeatingSystem;
 import com.fms.model.inspection.MechanicalAndElectrical;
+import com.fms.model.lease.Lease;
+import com.fms.model.lease.LeaseVisitor;
 
 public class Building extends Facility implements IFacility {
 
@@ -13,6 +15,17 @@ public class Building extends Facility implements IFacility {
 	private Set<Phone> phones;
 	private Set<Room> rooms;
 	
+	//Facility Lease visitor pattern
+	private Lease lease;
+	
+	public Lease getLease() {
+		return lease;
+	}
+
+	public void setLease(Lease lease) {
+		this.lease = lease;
+	}
+
 	//Inspect Implementation instance for setter injection
 	private HeatingSystem heatInspection;
 	private AirConditioning acInspection;
@@ -75,6 +88,11 @@ public class Building extends Facility implements IFacility {
 		heatInspection.inspect();
 		acInspection.inspect();
 		mechElecInspection.inspect();
+	}
+
+	@Override
+	public void accept(LeaseVisitor visitor) {
+		visitor.visit(this);		
 	}
 	
 }
