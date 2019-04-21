@@ -91,5 +91,8 @@
 	<bean id="userService" class="com.fms.model.user.service.UserService" scope="prototype">
 		<property name="user" ref="user" />
 	</bean>
-	
+	<bean id="leaseDiscountDecorator" class="com.fms.model.lease.decorator.LeaseDiscountDecorator" scope="prototype"/>
+	<bean id="leaseDecoratorService" class="com.fms.model.lease.decorator.service.LeaseDecoratorService" scope="prototype">
+		<property name="leaseDiscountDecorator" ref="leaseDiscountDecorator" />
+	</bean>
 </beans>

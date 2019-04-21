@@ -12,7 +12,14 @@ public class Lease {
 	private Date dateOfLease;
 	private Date dateFrom;
 	private Date dateTo;
+	private double discount;
 	
+	public double getDiscount() {
+		return discount;
+	}
+	public void setDiscount(double discount) {
+		this.discount = discount;
+	}
 	public String getLeaseNumber() {
 		return leaseNumber;
 	}

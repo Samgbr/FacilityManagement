@@ -12,7 +12,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.fms.model.customer.Customer;
 import com.fms.model.facility.Building;
-import com.fms.model.facility.IFacility;
 import com.fms.model.facility.Phone;
 import com.fms.model.facility.Room;
 import com.fms.model.facility.Warehouse;
@@ -24,6 +23,8 @@ import com.fms.model.inspection.service.InspectionService;
 import com.fms.model.lease.Lease;
 import com.fms.model.lease.LeaseVisitor;
 import com.fms.model.lease.LeaseVisitorImpl;
+import com.fms.model.lease.decorator.LeaseDiscountDecorator;
+import com.fms.model.lease.decorator.service.LeaseDecoratorService;
 import com.fms.model.maintenance.Maintenance;
 import com.fms.model.maintenance.MaintenanceOrder;
 import com.fms.model.maintenance.MaintenanceRequest;
@@ -157,7 +158,7 @@ public class FMSClient {
 		try {
 			Date dateFrom = simpleDateFormat.parse("2019-04-01");
 			bLease.setDateFrom(dateFrom);
-			Date dateTo = simpleDateFormat.parse("2019-04-20");
+			Date dateTo = simpleDateFormat.parse("2019-05-20");
 			bLease.setDateTo(dateTo);
 			Date date = simpleDateFormat.parse("2019-03-31");
 			bLease.setDateOfLease(date);
@@ -167,6 +168,11 @@ public class FMSClient {
 		bLease.setRate(200);
 		
 		building.setLease(bLease);
+		
+		//Decorator Pattern
+		LeaseDecoratorService leaseDecoratorService = (LeaseDecoratorService) context.getBean("leaseDecoratorService");
+		LeaseDiscountDecorator leaseDiscountDecorator = leaseDecoratorService.getLeaseDiscountDecorator();
+		leaseDiscountDecorator.setBuilding(building);
 		
 		//Leasing Warehouse visitor pattern
 		Lease wLease = warehouse.getLease();
@@ -179,7 +185,7 @@ public class FMSClient {
 		try {
 			Date dateFrom = simpleDateFormat.parse("2019-04-05");
 			wLease.setDateFrom(dateFrom);
-			Date dateTo = simpleDateFormat.parse("2019-04-25");
+			Date dateTo = simpleDateFormat.parse("2019-05-25");
 			wLease.setDateTo(dateTo);
 			Date date = simpleDateFormat.parse("2019-04-03");
 			wLease.setDateOfLease(date);
@@ -189,11 +195,13 @@ public class FMSClient {
 		wLease.setRate(2000);
 		
 		warehouse.setLease(wLease);
-		
 		//Visitor Pattern
 		LeaseVisitor visitor = new LeaseVisitorImpl();
 		building.accept(visitor);
+		//Decorator if any discount offered and set discount before lease total calculation
+		leaseDiscountDecorator.setWarehouse(warehouse);
 		warehouse.accept(visitor);
+		
 	}
 
 	private static Warehouse addWarehouse(String facilityID, String phoneID1, String phoneID2, String roomID1,
