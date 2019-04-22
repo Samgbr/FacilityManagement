@@ -49,14 +49,14 @@ public class LeaseVisitorImpl implements LeaseVisitor {
 		long dys = days/ (1000 * 60 * 60 * 24);
 		double discount=0.0, discountTotal =0.0;
 		if (dys>=30) {
-			discount = lease.getRate() * lease.getDiscount();
+			discount = lease.getRate() * lease.getDiscount();  // Get discount from the decorator
 			discountTotal = lease.getRate() * lease.getDiscount() * dys;
 			leaseTotal = dys * (lease.getRate() - discount);
 		} else {
 			leaseTotal = dys * lease.getRate();
 		}
 		System.out.println("Days: " + dys + " * lease rate per day: $" + lease.getRate());
-		System.out.println("Total lease amount: $" + leaseTotal + " discount total: $" + discountTotal +"\n");
+		System.out.println("Total lease amount: $" + leaseTotal + " discount total: $" + discountTotal +" = "+ dys + " * "+ discount+"\n");
 		return leaseTotal;
 	}
 	
