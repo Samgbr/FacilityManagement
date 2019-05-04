@@ -5,11 +5,21 @@ import com.fms.dal.facility.BuildingDAO;
 import com.fms.dal.facility.RoomDAO;
 import com.fms.model.facility.Building;
 import com.fms.model.facility.Room;
+import com.fms.model.facility.Warehouse;
 
 public class FacilityService {
 	
 	private Building building;
+	private Warehouse warehouse;
 	
+	public Warehouse getWarehouse() {
+		return warehouse;
+	}
+
+	public void setWarehouse(Warehouse warehouse) {
+		this.warehouse = warehouse;
+	}
+
 	public void setBuilding(Building building) {
 	    this.building = building;
 	  }

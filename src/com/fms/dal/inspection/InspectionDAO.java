@@ -9,23 +9,23 @@ import java.util.Iterator;
 import java.util.Set;
 
 import com.fms.dal.DBConnect;
-import com.fms.model.inspection.Inspection;
+import com.fms.model.inspection.HeatingSystem;
 
 public class InspectionDAO {
 	
 	//Insert inspection informations
-	public Set<Inspection> insertInspectionInfo(Set<Inspection> inspections){
+	public Set<HeatingSystem> insertInspectionInfo(Set<HeatingSystem> inspections, String facilityID){
 		Connection connection = DBConnect.getDatabaseConnection();
 		try {
 			Statement insertStatement=connection.createStatement();
 			
-			Iterator<Inspection> inspectionIterator=inspections.iterator();
+			Iterator<HeatingSystem> inspectionIterator=inspections.iterator();
 			while(inspectionIterator.hasNext()) {
 				
-				Inspection currentInspection=inspectionIterator.next();
+				HeatingSystem currentInspection=inspectionIterator.next();
 				
 				String insertQuery="INSERT INTO inspection(InspectionID,DateFrom,DateTo,InspectedBy,FacilityID,InspectionType) "
-						+"VALUES('"+currentInspection.getInspectionID()+"','"+currentInspection.getDateFrom()+"','"+currentInspection.getDateTo()+"','"+currentInspection.getInspectedBy()+"','"+currentInspection.getBuilding().getFacilityID()+"','"+currentInspection.getInspectionType()+"')";
+						+"VALUES('"+currentInspection.getInspectionID()+"','"+currentInspection.getDateFrom()+"','"+currentInspection.getDateTo()+"','"+currentInspection.getInspectedBy()+"','"+facilityID+"','"+currentInspection.getInspectionType()+"')";
 				insertStatement.executeUpdate(insertQuery);
 			}
 		}catch(SQLException se) {
@@ -42,11 +42,11 @@ public class InspectionDAO {
 	
 	
 	//retrieve all inspections for a facility
-	public Set<Inspection> getBuildingInspections() {
+	public Set<HeatingSystem> getBuildingInspections() {
 		
 		Connection connection = DBConnect.getDatabaseConnection();
 		
-		Set<Inspection> inspections = new HashSet<>();
+		Set<HeatingSystem> inspections = new HashSet<>();
 		
 		try {
 			Statement selectStatement = connection.createStatement();
@@ -61,7 +61,7 @@ public class InspectionDAO {
 				String inspectedBy=resultSet.getString("InspectedBy");
 				String inspectionType=resultSet.getString("InspectionType");
 				
-				Inspection inspection=new Inspection();
+				HeatingSystem inspection=new HeatingSystem();
 				inspection.setInspectionID(inspectionID);
 				inspection.setDateFrom(dateFrom);
 				inspection.setDateTo(dateTo);

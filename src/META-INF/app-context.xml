@@ -15,6 +15,10 @@
 		<property name="maintenanceRequest" ref="maintenanceRequest" />
 		<property name="reserve" ref="reserve"/>
 	</bean>
+	<bean id="lease" class="com.fms.model.lease.Lease" scope="prototype">
+		<property name="customer" ref="customer"/>
+	</bean>
+	<bean id="customer" class="com.fms.model.customer.Customer" scope="prototype"/>
 	
 	<bean id="maintenanceRequest" class="com.fms.model.maintenance.MaintenanceRequest" scope="prototype">
 		<property name="room" ref="room"/>
@@ -28,9 +32,11 @@
 	</bean>
 	<bean id="maintenance" class="com.fms.model.maintenance.Maintenance" scope="prototype"/>
 
-	<bean id="inspection" class="com.fms.model.inspection.Inspection" scope="prototype">	
-		<property name="building" ref="building"/>
-	</bean>	
+	<bean id="inspection" class="com.fms.model.inspection.HeatingSystem" scope="prototype">	
+		<!-- <property name="building" ref="building"/>  -->
+	</bean>
+	<bean id="acinspection" class="com.fms.model.inspection.AirConditioning" scope="prototype" />
+	<bean id="maeinspection" class="com.fms.model.inspection.MechanicalAndElectrical" scope="prototype" />
 	
 	<bean id="building" class="com.fms.model.facility.Building" scope="prototype">
 		<property name="phones">
@@ -43,6 +49,26 @@
 	            <ref bean="room" />
 	        </set>
 		</property>
+		<property name="heatInspection" ref="inspection"/>
+		<property name="acInspection" ref="acinspection"/>
+		<property name="mechElecInspection" ref="maeinspection"/>
+		<property name="lease" ref="lease"/>
+	</bean>
+	<bean id="warehouse" class="com.fms.model.facility.Warehouse" scope="prototype">
+		<property name="phones">
+			<set>
+	           <ref bean="phone" />
+	        </set>
+		</property>
+		<property name="rooms">
+			<set>
+	            <ref bean="room" />
+	        </set>
+		</property>
+		<property name="heatInspection" ref="inspection"/>
+		<property name="acInspection" ref="acinspection"/>
+		<property name="mechElecInspection" ref="maeinspection"/>
+		<property name="lease" ref="lease"/>
 	</bean>
 	<bean id="reserve" class="com.fms.model.reserveuse.Reserve" scope="prototype">
 		<property name="room" ref="room"/>
@@ -55,12 +81,18 @@
 	
 	<bean id="facilityService" class="com.fms.model.facility.service.FacilityService" scope="prototype">
 		<property name="building" ref="building" />
+		<property name="warehouse" ref="warehouse" />
 	</bean>
+	<!-- 
 	<bean id="inspectionService" class="com.fms.model.inspection.service.InspectionService" scope="prototype">
 		<property name="inspection" ref="inspection" />
 	</bean>
+	-->
 	<bean id="userService" class="com.fms.model.user.service.UserService" scope="prototype">
 		<property name="user" ref="user" />
 	</bean>
-	
+	<bean id="leaseDiscountDecorator" class="com.fms.model.lease.decorator.LeaseDiscountDecorator" scope="prototype"/>
+	<bean id="leaseDecoratorService" class="com.fms.model.lease.decorator.service.LeaseDecoratorService" scope="prototype">
+		<property name="leaseDiscountDecorator" ref="leaseDiscountDecorator" />
+	</bean>
 </beans>

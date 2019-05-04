@@ -1,5 +1,8 @@
 package com.fms.view;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -7,12 +10,21 @@ import java.util.Set;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.fms.model.customer.Customer;
 import com.fms.model.facility.Building;
 import com.fms.model.facility.Phone;
 import com.fms.model.facility.Room;
+import com.fms.model.facility.Warehouse;
 import com.fms.model.facility.service.FacilityService;
-import com.fms.model.inspection.Inspection;
+import com.fms.model.inspection.AirConditioning;
+import com.fms.model.inspection.HeatingSystem;
+import com.fms.model.inspection.MechanicalAndElectrical;
 import com.fms.model.inspection.service.InspectionService;
+import com.fms.model.lease.Lease;
+import com.fms.model.lease.LeaseVisitor;
+import com.fms.model.lease.LeaseVisitorImpl;
+import com.fms.model.lease.decorator.LeaseDiscountDecorator;
+import com.fms.model.lease.decorator.service.LeaseDecoratorService;
 import com.fms.model.maintenance.Maintenance;
 import com.fms.model.maintenance.MaintenanceOrder;
 import com.fms.model.maintenance.MaintenanceRequest;
@@ -52,7 +64,7 @@ public class FMSClient {
 		String roomID2 = "RM" + randomInt;
 	    
 		Building building = addBuilding(facilityID, phoneID1, phoneID2, roomID1, roomID2, context);
-		
+		Warehouse warehouse = addWarehouse(facilityID, phoneID1, phoneID2, roomID1, roomID2, context);
 		
 		Random randomGen = new Random();
 	    int randInt = randomGen.nextInt(10000);
@@ -90,7 +102,17 @@ public class FMSClient {
 		randInt = randomGen.nextInt(10000);		
 		String inspectionID = "IN" + randInt;
 		
-		addInspections(inspectionID, building, context);
+		randomGen = new Random();
+		randInt = randomGen.nextInt(10000);		
+		String leaseID1 = "LA" + randInt;
+		
+		randomGen = new Random();
+		randInt = randomGen.nextInt(10000);		
+		String leaseID2 = "LA" + randInt;
+		
+		addInspections(inspectionID, building, warehouse, context);
+		//Visitor pattern for Facility Lease
+		addNewLease(leaseID1, leaseID2, building, warehouse, context);
 		
 		randomGen = new Random();
 		randInt = randomGen.nextInt(10000);		
@@ -106,6 +128,149 @@ public class FMSClient {
 		
 	}
 
+	/**
+	 * This Method used to test the visitor pattern and calculates the total lease
+	 * @param leaseID
+	 * @param building
+	 * @param warehouse
+	 * @param context
+	 */
+	private static void addNewLease(String leaseID1, String leaseID2, Building building, Warehouse warehouse,
+			ApplicationContext context) {
+		//Create a lease
+		Lease bLease = building.getLease();
+		//Create a Customer
+		Customer customer = bLease.getCustomer();
+		customer.setFname("Alen");
+		customer.setmName("Dan");
+		customer.setlName("Paul");
+		customer.setPhoneNumber("773002121");
+		customer.setAddress("5150 North Ave.");
+		customer.setState("IL");
+		customer.setZipcode("60001");
+		
+		bLease.setLeaseNumber(leaseID1);
+		bLease.setCustomer(customer);
+		
+		String pattern = "yyyy-MM-dd";
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+
+		try {
+			Date dateFrom = simpleDateFormat.parse("2019-04-01");
+			bLease.setDateFrom(dateFrom);
+			Date dateTo = simpleDateFormat.parse("2019-05-20");
+			bLease.setDateTo(dateTo);
+			Date date = simpleDateFormat.parse("2019-03-31");
+			bLease.setDateOfLease(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		bLease.setRate(200);
+		
+		building.setLease(bLease);
+		
+		//Decorator Pattern
+		LeaseDecoratorService leaseDecoratorService = (LeaseDecoratorService) context.getBean("leaseDecoratorService");
+		LeaseDiscountDecorator leaseDiscountDecorator = leaseDecoratorService.getLeaseDiscountDecorator();
+		leaseDiscountDecorator.setBuilding(building);
+		
+		//Leasing Warehouse visitor pattern
+		Lease wLease = warehouse.getLease();
+		wLease.setLeaseNumber(leaseID2);
+		wLease.setCustomer(customer);
+		
+		pattern = "yyyy-MM-dd";
+		simpleDateFormat = new SimpleDateFormat(pattern);
+
+		try {
+			Date dateFrom = simpleDateFormat.parse("2019-04-05");
+			wLease.setDateFrom(dateFrom);
+			Date dateTo = simpleDateFormat.parse("2019-05-25");
+			wLease.setDateTo(dateTo);
+			Date date = simpleDateFormat.parse("2019-04-03");
+			wLease.setDateOfLease(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		wLease.setRate(2000);
+		
+		warehouse.setLease(wLease);
+		//Visitor Pattern
+		LeaseVisitor visitor = new LeaseVisitorImpl();
+		building.accept(visitor);
+		//Decorator if any discount offered and set discount before lease total calculation
+		leaseDiscountDecorator.setWarehouse(warehouse);
+		warehouse.accept(visitor);
+		
+	}
+
+	private static Warehouse addWarehouse(String facilityID, String phoneID1, String phoneID2, String roomID1,
+			String roomID2, ApplicationContext context) {
+		
+		System.out.println("Warehouse FacilityID Created.");
+		
+		System.out.println("Warehouse FacilityID instance Creation started using Spring...");
+		
+		FacilityService facilityService = (FacilityService) context.getBean("facilityService");
+		
+		Warehouse warehouse = facilityService.getWarehouse();
+		
+		//Create a Facility
+		warehouse.setFacilityID(facilityID);
+		warehouse.setFacilityName("Branch");
+		warehouse.setAddress("1804 South Ave.");
+		warehouse.setCity("Wheathon");
+		warehouse.setState("IL");
+		warehouse.setZipcode("60603");
+		warehouse.setType("Office");
+		warehouse.setCapacity(20);
+		
+		//We have tried to use the building.getPhones(); but not works it needs new Object using the new operator
+		Set<Phone> phones = new HashSet<>();
+		
+		Phone phone = (Phone) context.getBean("phone");
+		//Create facility phone numbers
+		phone.setPhoneID(phoneID1);
+		phone.setDescription("VP Office phone number");
+		phone.setPhoneNumber("304");
+		phones.add(phone);
+		
+		phone = (Phone) context.getBean("phone");
+		phone.setPhoneID(phoneID2);
+		phone.setDescription("Reception phone number");
+		phone.setPhoneNumber("504");
+		phones.add(phone);
+		
+		warehouse.setPhones(phones);
+		
+		//System.out.println(building.getPhones().iterator().next().getFacilityID());
+		
+		System.out.println("Warehouse Facility Phones Created.");
+		
+		//We have tried to use the building.getRooms(); but not works it needs new Object using the new operator
+		Set<Room> rooms = new HashSet<>();
+		
+		Room room = (Room) context.getBean("room");
+		//List of rooms inside the building		
+		room.setRoomID(roomID1);
+		room.setType("Conference");
+		rooms.add(room);
+		
+		room = (Room) context.getBean("room");
+		room.setRoomID(roomID2);
+		room.setType("Training Room");
+		rooms.add(room);
+		
+		warehouse.setRooms(rooms);
+		
+		System.out.println("Warehouse Facility Rooms Created.");
+		
+		System.out.println("Facility data inserted successfully.");
+		
+		return warehouse;
+		
+	}
+
 	private static void addReservationUse(String reserveID, User user, String roomID2, String usageID) {
 		
 		Reserve reserve = user.getReserve();
@@ -113,6 +278,11 @@ public class FMSClient {
 		reserve.setDateFrom("2019/03/01");
 		reserve.setDateTo("2019/03/15");
 		reserve.setrStatus("Reserved");
+		//Observer Pattern
+		//Attach user
+		reserve.setObserver(user);
+		//Notify Status
+		reserve.setState("Reserved! ConfirmationID: " + reserveID);
 		
 		ReserveuseService ruService = new ReserveuseService();
 		FacilityService fService = new FacilityService();
@@ -137,27 +307,62 @@ public class FMSClient {
 		
 	}
 
-	private static void addInspections(String inspectionID, Building building, ApplicationContext context) {
+	private static void addInspections(String inspectionID, Building building, Warehouse warehouse, ApplicationContext context) {
 		
-		InspectionService inspectionService = (InspectionService) context.getBean("inspectionService");
+		//InspectionService inspectionService = (InspectionService) context.getBean("inspectionService");
 		
-		Inspection inspection = inspectionService.getInspection();
+		//HeatingSystem inspection = inspectionService.getInspection();
 		
-		Set<Inspection> inspections = new HashSet<>();
+		Set<HeatingSystem> inspections = new HashSet<>();
 		
-		Building iBuilding = inspection.getBuilding();
-		iBuilding = building;
+		//Building iBuilding = inspection.getBuilding();
+		//iBuilding = building;
 		
+		//Bridge Pattern Demo for Inspection of heat System for a Building
+		HeatingSystem inspection = building.getHeatInspection();
 		inspection.setInspectionID(inspectionID);
+		
 		inspection.setDateFrom("2019/03/01");
 		inspection.setDateTo("2019/03/15");
 		inspection.setInspectedBy("Namipp Corp.");
-		inspection.setBuilding(iBuilding);
-		inspection.setInspectionType("Structure");
+		//inspection.setBuilding(iBuilding);
+		inspection.setInspectionType("Heat");
 		
 		inspections.add(inspection);
 		
-		inspectionService.addInspections(inspections);
+		//Bridge Pattern Demo for Inspection of AC System for a Building
+		AirConditioning acinspection = building.getAcInspection();
+		
+		acinspection.setDateFrom("2019/03/01");
+		acinspection.setDateTo("2019/03/15");
+		acinspection.setInspectedBy("Namipp Corp.");
+		//inspection.setBuilding(iBuilding);
+		acinspection.setInspectionType("AC and Ventilation");
+		
+		//Bridge Pattern Demo for Inspection of Electrical and Mechanical System for a Building
+		MechanicalAndElectrical maeinspection = building.getMechElecInspection();
+		
+		maeinspection.setDateFrom("2019/03/01");
+		maeinspection.setDateTo("2019/03/15");
+		maeinspection.setInspectedBy("Namipp Corp.");
+		//inspection.setBuilding(iBuilding);
+		maeinspection.setInspectionType("Electrical");
+		
+		InspectionService inspectionService = new InspectionService();
+		inspectionService.addInspections(inspections,building.getFacilityID());
+		
+		building.doInspections();
+		
+		//Warehouse Inspection Bridge Pattern
+		HeatingSystem hinspection = warehouse.getHeatInspection();
+		
+		hinspection.setDateFrom("2019/03/01");
+		hinspection.setDateTo("2019/03/15");
+		hinspection.setInspectedBy("Namipp Corp.");
+		hinspection.setInspectionType("Heat");
+		
+		warehouse.doInspections();
+		
 		/*
 		System.out.println("Inspections: ");
 		for(Inspection i: inspectionService.listInspections()) {

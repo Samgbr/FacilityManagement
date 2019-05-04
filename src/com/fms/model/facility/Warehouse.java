@@ -8,7 +8,7 @@ import com.fms.model.inspection.MechanicalAndElectrical;
 import com.fms.model.lease.Lease;
 import com.fms.model.lease.LeaseVisitor;
 
-public class Building extends Facility implements IFacility {
+public class Warehouse extends Facility implements IFacility {
 
 	private String type;
 	private int capacity;
@@ -17,11 +17,10 @@ public class Building extends Facility implements IFacility {
 	
 	//Facility Lease visitor pattern
 	private Lease lease;
-	
+		
 	public Lease getLease() {
 		return lease;
 	}
-
 	public void setLease(Lease lease) {
 		this.lease = lease;
 	}
@@ -31,24 +30,24 @@ public class Building extends Facility implements IFacility {
 	private AirConditioning acInspection;
 	private MechanicalAndElectrical mechElecInspection;
 	
-	public MechanicalAndElectrical getMechElecInspection() {
-		return mechElecInspection;
+	public HeatingSystem getHeatInspection() {
+		return heatInspection;
 	}
-
-	public void setMechElecInspection(MechanicalAndElectrical mechElecInspection) {
-		this.mechElecInspection = mechElecInspection;
+	public void setHeatInspection(HeatingSystem heatInspection) {
+		this.heatInspection = heatInspection;
 	}
-
 	public AirConditioning getAcInspection() {
 		return acInspection;
 	}
-
 	public void setAcInspection(AirConditioning acInspection) {
 		this.acInspection = acInspection;
 	}
-
-	public Building() {}
-	
+	public MechanicalAndElectrical getMechElecInspection() {
+		return mechElecInspection;
+	}
+	public void setMechElecInspection(MechanicalAndElectrical mechElecInspection) {
+		this.mechElecInspection = mechElecInspection;
+	}
 	public Set<Phone> getPhones() {
 		return phones;
 	}
@@ -73,26 +72,17 @@ public class Building extends Facility implements IFacility {
 	public void setCapacity(int capacity) {
 		this.capacity = capacity;
 	}
-
-	public HeatingSystem getHeatInspection() {
-		return heatInspection;
-	}
-
-	public void setHeatInspection(HeatingSystem heatInspection) {
-		this.heatInspection = heatInspection;
-	}
-
+	
 	@Override
 	public void doInspections() {
-		System.out.println("\nBuilding Inspections: Bidge Pattern");
+		System.out.println("\nWarehouse Inspections: Bidge Pattern");
 		heatInspection.inspect();
-		acInspection.inspect();
-		mechElecInspection.inspect();
+		System.out.println();
 	}
-
+	
 	@Override
 	public void accept(LeaseVisitor visitor) {
-		visitor.visit(this);		
+		visitor.visit(this);
 	}
 	
 }

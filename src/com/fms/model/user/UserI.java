@@ -19,5 +19,6 @@ public interface UserI {
 	public void setReserve(Reserve reserve);
 	public MaintenanceRequest getMaintenanceRequest();
 	public void setMaintenanceRequest(MaintenanceRequest maintenanceRequest);
-
+	//Observer Pattern
+	public abstract void update();
 }
